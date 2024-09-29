@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title><%= title %></title>
+        <link rel="stylesheet" href='css/styles.css'>
+    </head>
+    <body>
+        <%- include('./../partials/background.ejs') %>
+        <aside class='sidebar'>
+            <div class='decoration-line'>
+                <div class='vertical-line'>
+                </div>
+            </div>
+            <div class='links'>
+                <div class='logo'>
+                    <h1>
+                        Ps2 Game Vault
+                    </h1>
+                </div>
+                <a href='/games'>
+                    <div class='indicator'>
+                        <div class='diamond'>
+                        </div>
+                    </div>
+                    <span>
+                        List of games
+                    </span>
+                </a>
+                <a href='/genres'>
+                    <div class='indicator'>
+                        <div class='diamond'>
+                        </div>
+                    </div>
+                    <span>
+                        Genres
+                    </span>
+                </a>
+                <a href='/publishers'>
+                    <div class='indicator'>
+                        <div class='diamond'>
+                        </div>
+                    </div>
+                    <span>
+                        Publishers
+                    </span>
+                </a>
+                <a href='/search'>
+                    <div class='indicator'>
+                        <div class='diamond'>
+                        </div>
+                    </div>
+                    <span>
+                        Search
+                    </span>
+                </a>
+                <a href='/about'>
+                    <div class='indicator'>
+                        <div class='diamond'>
+                        </div>
+                    </div>
+                    <span>
+                        About this page
+                    </span>
+                </a>
+                <a href='/addNewGame'>
+                    <div class='indicator'>
+                        <div class='diamond'>
+                        </div>
+                    </div>
+                    <span>
+                        Add new game
+                    </span>
+                </a>
+            </div>
+        </aside>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>

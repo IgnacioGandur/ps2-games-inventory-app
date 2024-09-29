@@ -1,0 +1,22 @@
+{
+    "dependencies": {
+        "dotenv": "^16.4.5",
+        "ejs": "^3.1.10",
+        "express": "^4.21.0",
+        "express-validator": "^7.2.0",
+        "pg": "^8.12.0"
+    },
+    "name": "ps2-games-inventory-app",
+    "version": "1.0.0",
+    "description": "An inventory application for The Odin Project course, based on PS2 games.",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "node --watch app",
+        "createTables": "node db/createTables",
+        "populateTables": "node db/populateTables"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}

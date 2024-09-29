@@ -1,0 +1,45 @@
+<form action='/addNewGame' method='POST' class='addGameForm'>
+    <label for='title'>
+        Title:
+        <input type='text' name='title' id='title' >
+    </label>
+    <label for='description'>
+        Description:
+        <input type='text' name='description' id='description'>
+    </label>
+    <label for='release_date'>
+        Release date:
+        <input type='date' name='release_date' id='release_date'>
+    </label>
+    <label for='coverUrl'>
+        Game cover URL:
+        <input type='url' name='coverUrl' id='coverUrl'>
+    </label>
+    <% if (locals.genres) { %>
+        <ul>
+            <h2> Select the genres of this game </h2>
+            <li>
+                <% genres.forEach((genre) => { %>
+                    <label for='<%= genre.name%>'>
+                        <%= genre.name %>
+                        <input type='checkbox' name='genres' id='<%= genre.name %>' value='<%= genre.id %>'>
+                    </label>
+                <% }) %>
+            </li>
+        </ul>
+    <% } %>
+    <% if (locals.publishers) { %>
+        <ul>
+            <h2> Select the publisher of this game</h2>
+            <li>
+                <% publishers.forEach((publisher) => { %>
+                    <label for='<%= publisher.name %>'>
+                        <%= publisher.name %>
+                        <input type='radio' name='publisherId' id='<%= publisher.name %>' value='<%= publisher.id %>'>
+                    </label>
+                <% }) %>
+            </li>
+        </ul>
+    <% } %>
+    <button type='submit'>Create entry for this game</button>
+</form>

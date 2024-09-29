@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>
+            <%= title %>
+        </title>
+    </head>
+    <body>
+        <h1>
+            <%= gameData.title %>
+        </h1>
+        <object data="<%= gameCover.cover %>" type="image/jpg">
+            <img src='/images/ps2_games.jpg' />
+        </object>
+        <p>
+            <%= gameData.description %>
+        </p>
+        <p>
+            <%= gameData.release_date %>
+        </p>
+        <% if (locals.gameGenres) { %>
+            <% gameGenres.forEach((genre) => { %>
+                <li>
+                    <%= genre.genre %>
+                </li>
+            <% }) %>
+        <% } %>
+        <% if(gamePublisher) { %>
+            <p>
+                <%= gamePublisher.publisher %>
+            </p>
+        <%} %>
+    </body>
+</html>

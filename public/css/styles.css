@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rock+Salt&display=swap");
+
+:root {
+    --font-main: "Roboto", sans-serif;
+    --font-decorative: "Rock Salt", cursive;
+    --color-dark-background: #001b29;
+}
+
+* {
+    /*border: 1px solid red;*/
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 50px;
+    color: white;
+    padding: 0 3em;
+}
+
+/*Background*/
+
+.background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: radial-gradient(
+            circle at center,
+            transparent 10%,
+            #000000bb 80%
+        ),
+        url("/images/mk-background.webp");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.background > svg {
+    width: 100%;
+    height: 90%;
+}
+
+.background svg #main_scorpion {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: breathing 2s linear infinite alternate-reverse;
+}
+
+.background svg #left_scorpion {
+    transform-box: fill-box;
+    transform-origin: center;
+    /*animation: translate-horizontally 4s linear infinite alternate-reverse;*/
+}
+
+/*sidebar*/
+
+.sidebar {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    display: flex;
+}
+
+.sidebar > .decoration-line {
+    padding: 0 1.5em;
+}
+
+.sidebar > .decoration-line > .vertical-line {
+    height: 92%;
+    width: 1px;
+    background-color: white;
+}
+
+.sidebar > .links {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5em;
+}
+
+.sidebar > .links > * {
+    padding: 1em 0.5em;
+}
+
+.sidebar > .links > a {
+    position: relative;
+    display: flex;
+}
+
+.sidebar > .links > a > .indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    left: -31px;
+}
+
+.sidebar > .links > a > .indicator > .diamond {
+    width: 13px;
+    height: 13px;
+    transform: rotate(45deg);
+    background-color: white;
+    transition: all 300ms ease-in-out;
+}
+
+.sidebar > .links > a:hover > .indicator > .diamond {
+    transform: rotate(135deg) scale(1.75);
+}
+
+.sidebar > .links > a > span {
+    font-size: 2rem;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+}
+
+.sidebar > .links > a:hover > span {
+    transform: translateX(2em) scale(1.75);
+}
+
+.addGameForm {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-self: center;
+    color: black;
+}
+
+/*footer*/
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+@keyframes breathing {
+    /*0% {*/
+    /*    transform: scale(1.01, 0.99);*/
+    /*}*/
+    0% {
+        transform: scale(1, 1.02);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes translate-horizontally {
+    0% {
+        transform: translateX(100px);
+    }
+    50% {
+        transform: translateX(-100px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}

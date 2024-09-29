@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>
+            <%= title %>
+        </title>
+    </head>
+    <body>
+        <h1>
+            Ps 2 game genres
+        </h1>
+        <% if (locals.genres ) { %>
+            <ul>
+                <% genres.forEach((genre) => { %>
+                    <li>
+                        <%= genre.name %>
+                    </li>
+                    <form action="/genres/delete/<%= genre.id %>" method='POST'>
+                        <button type="submit">
+                            Delete this genre
+                        </button>
+                    </form>
+                <% }) %>
+            </ul>
+        <% } %>
+    </body>
+</html>
