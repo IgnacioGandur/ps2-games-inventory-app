@@ -38,7 +38,7 @@ async function addNewGamePost(req, res) {
         await insertIntoGames_genres(gameId, genres);
     }
 
-    res.redirect("/");
+    res.redirect("/games");
 }
 
 module.exports = {

@@ -9,26 +9,32 @@
         <title>
             <%= title %>
         </title>
+        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     </head>
     <body>
-        <h1>
-            <%= title %>
-        </h1>
-        <% if(locals.publishers) { %>
-           <ul>
-                <% publishers.forEach((publisher) => { %>
-                    <li>
-                        <h2>
-                            <%= publisher.name %>
-                        </h2>
-                        <form action='/publishers/delete/<%= publisher.id %>' method='POST'>
-                            <button type='submit'>
-                                Delete this publisher
-                            </button>
-                        </form>
-                    </li>
-                <% }) %>
-           </ul>
-        <% } %>
+        <%- include('../partials/navbar.ejs') %>
+        <main>
+            <h1>
+                <%= title %>
+            </h1>
+            <% if(locals.publishers) { %>
+            <ul>
+                    <% publishers.forEach((publisher) => { %>
+                        <li>
+                            <h2>
+                                <%= publisher.name %>
+                            </h2>
+                            <form action='/publishers/delete/<%= publisher.id %>' method='POST'>
+                                <button type='submit'>
+                                    Delete this publisher
+                                </button>
+                            </form>
+                        </li>
+                    <% }) %>
+            </ul>
+            <% } %>
+        </main>
+        <%- include('../partials/footer.ejs') %>
     </body>
 </html>

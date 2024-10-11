@@ -10,6 +10,8 @@ const addNewGameRouter = require("./routes/addNewGameRouter");
 const gamesRouter = require("./routes/gamesRouter");
 const genresRouter = require("./routes/genresRouter");
 const publishersRouter = require("./routes/publishersRouter");
+const searchRouter = require("./routes/searchRouter.js");
+const aboutRouter = require("./routes/aboutRouter.js");
 
 // Add flexibility on user input.
 app.use(express.urlencoded({ extended: true }));
@@ -28,6 +30,8 @@ app.use("/categories", categoriesRouter);
 app.use("/addNewGame", addNewGameRouter);
 app.use("/genres", genresRouter);
 app.use("/publishers", publishersRouter);
+app.use("/search", searchRouter);
+app.use("/about", aboutRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}/`);

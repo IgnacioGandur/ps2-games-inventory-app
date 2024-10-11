@@ -1,2 +1,4 @@
 const gameReleaseDateCalendar = document.querySelector("#release_date");
-flatpickr(gameReleaseDateCalendar);
+flatpickr(gameReleaseDateCalendar, {
+    allowInput: true,
+});

@@ -1,45 +1,65 @@
-<form action='/addNewGame' method='POST' class='addGameForm'>
+<form action='/addNewGame' method='POST' id='add-game-form' >
     <label for='title'>
         Title:
-        <input type='text' name='title' id='title' >
+        <input type='text' name='title' id='title' minlength='2' maxlength='255' placeholder='Black' required>
     </label>
     <label for='description'>
         Description:
-        <input type='text' name='description' id='description'>
+        <input type='text' name='description' id='description' minlength='10' placeholder='First person shooter develop by Criterion Games.' required>
     </label>
     <label for='release_date'>
         Release date:
-        <input type='date' name='release_date' id='release_date'>
+        <input type='date' name='release_date' id='release_date' placeholder='2004-01-01' required>
     </label>
     <label for='coverUrl'>
-        Game cover URL:
-        <input type='url' name='coverUrl' id='coverUrl'>
+        <div class='text'>
+            <p>
+                Game cover URL:
+            </p>
+            <div class='info-bubble'>
+                <span class='material-symbols-rounded'>
+                    info
+                </span>
+                <p>
+                    You can look for PS2 game covers here
+                    <a href='https://www.mobygames.com/platform/ps2/' target='about_blank'>
+                        here
+                    </a>
+                    .
+                </p>
+            </div>
+        </div>
+        <input type='url' name='coverUrl' id='coverUrl' placeholder='https://cdn.mobygames.com/b8c2cd76-abaf-11ed-aecf-02420a000198.webp' required>
     </label>
+    <div class='divider'>
+    </div>
+    <h4> Select the genres of this game </h4>
     <% if (locals.genres) { %>
-        <ul>
-            <h2> Select the genres of this game </h2>
-            <li>
-                <% genres.forEach((genre) => { %>
+        <div class='options-container'>
+            <% genres.forEach((genre) => { %>
+                <div class='option'>
+                    <input data-genre-checkbox type='checkbox' name='genres' id='<%= genre.name %>' value='<%= genre.id %>' >
                     <label for='<%= genre.name%>'>
                         <%= genre.name %>
-                        <input type='checkbox' name='genres' id='<%= genre.name %>' value='<%= genre.id %>'>
                     </label>
-                <% }) %>
-            </li>
-        </ul>
+                </div>
+            <% }) %>
+        </div>
     <% } %>
+    <div class='divider'>
+    </div>
+    <h4> Select the publisher of this game</h4>
     <% if (locals.publishers) { %>
-        <ul>
-            <h2> Select the publisher of this game</h2>
-            <li>
-                <% publishers.forEach((publisher) => { %>
+        <div class='options-container'>
+            <% publishers.forEach((publisher,index) => { %>
+                <div class='option'>
+                    <input type='radio' name='publisherId' id='<%= publisher.name %>' value='<%= publisher.id %>' <%= index === 0 ? 'required' : null %>>
                     <label for='<%= publisher.name %>'>
                         <%= publisher.name %>
-                        <input type='radio' name='publisherId' id='<%= publisher.name %>' value='<%= publisher.id %>'>
                     </label>
-                <% }) %>
-            </li>
-        </ul>
+                </div>
+            <% }) %>
+        </div>
     <% } %>
-    <button type='submit'>Create entry for this game</button>
+    <button class='submit-form-button' type='submit'>Create entry for this game</button>
 </form>

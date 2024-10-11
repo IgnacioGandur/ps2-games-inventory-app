@@ -16,22 +16,8 @@
         <%- include('../partials/navbar.ejs') %>
         <main>
             <h1>
-                Ps 2 game genres
+                <%= title %>
             </h1>
-            <% if (locals.genres ) { %>
-                <ul>
-                    <% genres.forEach((genre) => { %>
-                        <li>
-                            <%= genre.name %>
-                        </li>
-                        <form action="/genres/delete/<%= genre.id %>" method='POST'>
-                            <button type="submit">
-                                Delete this genre
-                            </button>
-                        </form>
-                    <% }) %>
-                </ul>
-            <% } %>
         </main>
         <%- include('../partials/footer.ejs') %>
     </body>

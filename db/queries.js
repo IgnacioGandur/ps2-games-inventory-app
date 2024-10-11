@@ -2,7 +2,7 @@ const db = require("./pool");
 
 async function getAllGames() {
     const { rows } = await db.query(`
-        SELECT games.id, games.title, games.description, games.release_date, covers.url AS cover FROM games 
+        SELECT games.title, games.id, covers.url AS cover FROM games 
         INNER JOIN covers ON games.id = covers.game_id ORDER BY games.title;
     `);
     return rows;

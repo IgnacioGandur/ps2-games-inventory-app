@@ -6,14 +6,19 @@
             name="viewport"
             content="width=device-width, initial-scale=1.0"
         />
-        <link rel='stylesheet' href='/css/styles.css'>
         <title><%= title %></title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <link rel='stylesheet' href='/css/styles.css'>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <script defer src="/js/utilities/handleGenreCheckboxes.js"></script>
+        <script defer src="/js/addNewGame.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script defer src='/js/addNewGame.js'></script>
     </head>
     <body>
         <%- include('../partials/navbar.ejs') %>
-        <%- include('../partials/addGameForm.ejs') %>
+        <main class='add-game-form'>
+            <%- include('../partials/addGameForm.ejs') %>
+        </main>
+        <%- include('../partials/footer.ejs') %>
     </body>
 </html>

@@ -1,3 +1,4 @@
+const { format } = require("date-fns");
 const {
     getAllGames,
     getGameById,
@@ -5,14 +6,21 @@ const {
     getGameCover,
     getGamePublisher,
     deleteGame,
+    getAllGenres,
+    getAllPublishers,
 } = require("../db/queries");
 
 async function gamesGet(req, res) {
     const games = await getAllGames();
+    const genres = await getAllGenres();
+    const publishers = await getAllPublishers();
 
+    console.log(genres);
     res.render("pages/games", {
         title: "Games list",
         games: games,
+        genres: genres,
+        publishers: publishers,
     });
 }
 
@@ -30,6 +38,7 @@ async function gamePageGet(req, res) {
         gameGenres: gameGenres,
         gameCover: gameCover[0],
         gamePublisher: gamePublisher[0],
+        gameReleaseDate: format(gameData[0].release_date, "LLLL ho, yyyy"),
     });
 }
 

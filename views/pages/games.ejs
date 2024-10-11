@@ -7,37 +7,71 @@
             content="width=device-width, initial-scale=1.0"
         />
         <title><%= title %></title>
+        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     </head>
     <body>
-        <h1>
-            <%= title %>
-        </h1>
-        <% if (locals.games) { %>
-            <ul class='games-grid'>
-                <% games.forEach((game) => { %>
-                    <li>
-                        <a href="/games/<%= game.id %>">
-                            <p>
-                                <%= games.title %>
-                            </p>
-                            <p>
-                                The id of this game is:
-                                <%= game.id %>
-                            </p>
-                            <img src="<%= game.cover ? game.cover : '../../public/images/ps2_games.jpg' %>" onerror="this.src='/images/ps2_games.jpg'"/>
-                            <p>
-                                <%= game.description %>
-                            </p>
-                            <p>
-                                <%= game.release_date %>
-                            </p>
-                        </a>
-                        <form action="/games/delete/<%= game.id %>" method="POST">
-                            <button type='submit'>Delete this game</button>
+        <%- include('../partials/navbar.ejs') %>
+        <main class='games'>
+            <aside class="sort-sidebar">
+                <div class="sort">
+                    <h4>
+                        Sort games
+                    </h4>
+                    <div class="sort-options">
+                        <button>Alphabetically</button>
+                        <button>By date</button>
+                    </div>
+                </div>
+                <div class="filter">
+                    <h4>Filter by genre</h4>
+                    <% if (locals.genres ) { %>
+                        <form class='filter-genres options-container' action='/games/'>
+                            <% genres.forEach((genre) => { %>
+                                <div class='option'>
+                                    <input type="checkbox" name='genreFilter' id='<%= genre.name %>' value='<%= genre.id %>'>
+                                    <label for="<%= genre.name %>">
+                                        <%= genre.name %>
+                                    </label>
+                                </div> 
+                            <% }) %>
+                            <button type='submit'>Filter by genre</button>
                         </form>
-                    </li>
-                <% }) %>
-            </ul>
-        <% } %>
+                    <% } %>
+                </div>
+                <div class="filter">
+                    <h4>Filter by publishers</h4>
+                    <% if (locals.publishers) { %>
+                        <form class='filter-publishers options-container'>
+                            <% publishers.forEach((publisher) => { %>
+                                <div class='option'>
+                                    <input type="checkbox" name='publisherFilter' id='<%= publisher.name %>' value='<%= publisher.id %>'>
+                                    <label for="<%= publisher.name %>">
+                                        <%= publisher.name %>
+                                    </label>
+                                </div>  
+                            <% }) %>
+                        <button type="submit">Filter by publisher</button>
+                        </form>
+                    <% } %>
+                </div>
+            </aside>
+            <% if (locals.games) { %>
+                <div class='games-grid'>
+                    <% games.forEach((game) => { %>
+                        <div class="game" >
+                            <img src="<%= game.cover %>" alt="<%= game.title %>" onerror="this.onerror=null; this.src='/images/ps2_games.jpg'">
+                            <div class="gradient-overlay"></div>
+                            <a href="/games/<%= game.id %>">
+                                <h3>
+                                    <%= game.title %>
+                                </h3> 
+                            </a>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </main>
+        <%- include('../partials/footer.ejs') %>
     </body>
 </html>

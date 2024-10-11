@@ -10,74 +10,94 @@
         <link rel="stylesheet" href='css/styles.css'>
     </head>
     <body>
-        <%- include('./../partials/background.ejs') %>
-        <aside class='sidebar'>
-            <div class='decoration-line'>
-                <div class='vertical-line'>
+        <main class='index-page'>
+            <aside class='sidebar'>
+                <div class='decoration-line'>
+                    <div class='vertical-line'>
+                    </div>
                 </div>
-            </div>
-            <div class='links'>
-                <div class='logo'>
-                    <h1>
-                        Ps2 Game Vault
-                    </h1>
+                <div class='links'>
+                    <div class='logo'>
+                        <img src="/images/ps2-logo.png" alt="ps2 logo">
+                        <h1>
+                            Games Vault
+                        </h1>
+                    </div>
+                    <a href='/games'>
+                        <div class='indicator'>
+                            <div class='diamond'>
+                            </div>
+                        </div>
+                        <span>
+                            List of games
+                        </span>
+                    </a>
+                    <a href='/genres' class='links-with-hidden-tags'>
+                        <div class='indicator'>
+                            <div class='diamond'>
+                            </div>
+                        </div>
+                        <span>
+                            Genres
+                        </span>
+                        <% if(locals.genres) { %>
+                            <ul class='hidden-tags'>
+                                <% genres.forEach((genre, index) => { %>
+                                    <li style="animation-delay: <%= index * 50 %>ms">
+                                        <%= genre.name %>
+                                    </li>
+                                <% }) %>
+                            </ul>
+                        <% } %>
+                    </a>
+                    <a href='/publishers' class='links-with-hidden-tags'>
+                        <div class='indicator'>
+                            <div class='diamond'>
+                            </div>
+                        </div>
+                        <span>
+                            Publishers
+                        </span>
+                        <% if (locals.publishers) { %>
+                            <ul class="hidden-tags">
+                                <% publishers.forEach((publisher, index) => { %>
+                                    <li style="animation-delay: <%= index * 50 %>ms">
+                                        <%= publisher.name %>
+                                    </li>
+                                <% }) %>
+                            </ul>
+                        <% } %>
+                    </a>
+                    <a href='/search'>
+                        <div class='indicator'>
+                            <div class='diamond'>
+                            </div>
+                        </div>
+                        <span>
+                            Search
+                        </span>
+                    </a>
+                    <a href='/about'>
+                        <div class='indicator'>
+                            <div class='diamond'>
+                            </div>
+                        </div>
+                        <span>
+                            About
+                        </span>
+                    </a>
+                    <a href='/addNewGame'>
+                        <div class='indicator'>
+                            <div class='diamond'>
+                            </div>
+                        </div>
+                        <span>
+                            Add new game
+                        </span>
+                    </a>
                 </div>
-                <a href='/games'>
-                    <div class='indicator'>
-                        <div class='diamond'>
-                        </div>
-                    </div>
-                    <span>
-                        List of games
-                    </span>
-                </a>
-                <a href='/genres'>
-                    <div class='indicator'>
-                        <div class='diamond'>
-                        </div>
-                    </div>
-                    <span>
-                        Genres
-                    </span>
-                </a>
-                <a href='/publishers'>
-                    <div class='indicator'>
-                        <div class='diamond'>
-                        </div>
-                    </div>
-                    <span>
-                        Publishers
-                    </span>
-                </a>
-                <a href='/search'>
-                    <div class='indicator'>
-                        <div class='diamond'>
-                        </div>
-                    </div>
-                    <span>
-                        Search
-                    </span>
-                </a>
-                <a href='/about'>
-                    <div class='indicator'>
-                        <div class='diamond'>
-                        </div>
-                    </div>
-                    <span>
-                        About this page
-                    </span>
-                </a>
-                <a href='/addNewGame'>
-                    <div class='indicator'>
-                        <div class='diamond'>
-                        </div>
-                    </div>
-                    <span>
-                        Add new game
-                    </span>
-                </a>
-            </div>
-        </aside>
+            </aside>
+        </main>
         <%- include('../partials/footer.ejs') %>
     </body>
 </html>
