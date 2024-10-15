@@ -137,6 +137,52 @@ async function deletePublisher(publisherId) {
     );
 }
 
+async function checkIfGameExists(title) {
+    const { rows } = await db.query(
+        `
+        SELECT * FROM games WHERE title ~* $1;
+    `,
+        [title],
+    );
+
+    // Check if the return value is empty.
+    if (rows.length != 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+async function checkIfCoverAlreadyExists(coverUrl) {
+    const { rows } = await db.query(
+        `
+        SELECT * FROM covers WHERE url ~* $1;
+    `,
+        [coverUrl],
+    );
+
+    if (rows.length != 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+async function checkIfDescriptionAlreadyExists(description) {
+    const { rows } = await db.query(
+        `
+        SELECT * FROM games WHERE description ~* $1;
+    `,
+        [description],
+    );
+
+    if (rows.length != 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 module.exports = {
     getAllGames,
     getAllGenres,
@@ -151,4 +197,7 @@ module.exports = {
     deleteGenre,
     deleteGame,
     deletePublisher,
+    checkIfGameExists,
+    checkIfCoverAlreadyExists,
+    checkIfDescriptionAlreadyExists,
 };

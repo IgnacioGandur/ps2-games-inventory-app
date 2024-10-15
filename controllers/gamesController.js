@@ -15,7 +15,6 @@ async function gamesGet(req, res) {
     const genres = await getAllGenres();
     const publishers = await getAllPublishers();
 
-    console.log(genres);
     res.render("pages/games", {
         title: "Games list",
         games: games,
