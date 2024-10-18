@@ -48,7 +48,7 @@
                 </div>
             </aside>
             <% if (locals.games) { %>
-                <div class='games-grid' style="<%= locals.filters ? 'grid-template-rows: 75px repeat(auto-fit, 375px);' : 'grid-template-rows: repeat(auto-fit, 375px);' %>">
+                <div class='games-grid' >
                     <div class='filters' <%= locals.filters ? '' : "style=display:none;" %>>
                         <% if (locals.filters) { %>
                             <p>Filtering by <%= locals.filteringBy %>:</p>
@@ -64,17 +64,19 @@
                     <% if (games.length === 0) { %>
                         <p class='no-matches'>No records matched your query.</p>
                     <% } %>
-                    <% games.forEach((game) => { %>
-                        <div class="game" >
-                            <img src="<%= game.cover %>" alt="<%= game.title %>" onerror="this.onerror=null; this.src='/images/ps2_games.jpg'">
-                            <div class="gradient-overlay"></div>
-                            <a href="/games/<%= game.id %>">
-                                <h3>
-                                    <%= game.title %>
-                                </h3> 
-                            </a>
-                        </div>
-                    <% }) %>
+                    <div class='games-container'>
+                        <% games.forEach((game) => { %>
+                            <div class="game" >
+                                <img src="<%= game.cover %>" alt="<%= game.title %>" onerror="this.onerror=null; this.src='/images/ps2_games.jpg'">
+                                <div class="gradient-overlay"></div>
+                                <a href="/games/<%= game.id %>">
+                                    <h3>
+                                        <%= game.title %>
+                                    </h3> 
+                                </a>
+                            </div>
+                        <% }) %>
+                    </div>
                 </div>
             <% } %>
         </main>

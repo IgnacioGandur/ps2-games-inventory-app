@@ -291,8 +291,7 @@ main {
     background-position: center;
     background-repeat: no-repeat;
     padding: 1em 0;
-    display: grid;
-    grid-template-columns: 1fr 6fr;
+    display: flex;
     gap: 1em;
 }
 
@@ -303,6 +302,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 3em;
+    flex: 1;
     border-right: 1px solid #ffffff22;
     padding: 1em;
 }
@@ -420,10 +420,9 @@ main {
 /*games grid*/
 
 .games > .games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-    /*grid-template-rows: 75px repeat(auto-fit, 375px);*/
-    gap: 0.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
     flex: 6;
     padding: 0 1em 0 0;
 }
@@ -431,6 +430,7 @@ main {
 .games-grid > .filters {
     grid-column: 1/-1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     font-family: var(--font-main);
     gap: 1em;
@@ -444,6 +444,7 @@ main {
 .games-grid > .filters > ul {
     list-style-type: none;
     display: flex;
+    flex-wrap: wrap;
     gap: 1em;
     align-items: center;
 }
@@ -454,7 +455,15 @@ main {
     border-radius: 5px;
 }
 
-.games > .games-grid > .game {
+.games > .games-grid > .games-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: repeat(auto-fit, 375px);
+    gap: 0.5em;
+}
+
+.games > .games-grid > .games-container > .game {
     border-radius: 0.25em;
     background-size: cover;
     background-position: center;
@@ -472,7 +481,7 @@ main {
     z-index: 10;
 }
 
-.games > .games-grid > .game > .gradient-overlay {
+.games > .games-grid > .games-container > .game > .gradient-overlay {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -485,28 +494,28 @@ main {
     transition: all 200ms ease-in;
 }
 
-.games > .games-grid > .game:hover > .gradient-overlay {
+.games > .games-grid > .games-container > .game:hover > .gradient-overlay {
     opacity: 1;
 }
 
-.games > .games-grid > .game > a {
+.games > .games-grid > .games-container > .game > a {
     text-transform: capitalize;
     z-index: 10;
     padding: 1em;
 }
 
-.games > .games-grid > .game > a > h3 {
+.games > .games-grid > .games-container > .game > a > h3 {
     font-size: 1rem;
     opacity: 0;
     transform: translateY(200%);
     transition: all 200ms ease-in;
 }
-.games > .games-grid > .game:hover > a > h3 {
+.games > .games-grid > .games-container > .game:hover > a > h3 {
     transform: translateY(0%);
     opacity: 1;
 }
 
-.games > .games-grid > .game > img {
+.games > .games-grid > .games-container > .game > img {
     height: 100%;
     position: absolute;
     top: 50%;
@@ -515,7 +524,7 @@ main {
     transition: all 200ms ease-in-out;
 }
 
-.games > .games-grid > .game > a {
+.games > .games-grid > .games-container > .game > a {
     width: 100%;
     height: 100%;
     text-decoration: none;
@@ -528,7 +537,7 @@ main {
     justify-content: space-between;
 }
 
-.games > .games-grid > .game > button {
+.games > .games-grid > .games-container > .game > button {
     background-color: black;
     border: 1px solid #ffffff;
     border-radius: 50%;
@@ -548,12 +557,12 @@ main {
     justify-content: center;
 }
 
-.games > .games-grid > .game > button > span {
+.games > .games-grid > .games-container > .game > button > span {
     color: #ffffff;
     font-size: 1.25rem;
 }
 
-.games > .games-grid > .game:hover > button {
+.games > .games-grid > .games-container > .game:hover > button {
     opacity: 1;
     transform: translateX(0%);
 }

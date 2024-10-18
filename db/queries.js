@@ -218,8 +218,6 @@ async function getGamesByPublishers(publishersIds) {
         publishersInt.push(Number(publishersIds[i]));
     }
 
-    console.log("Array of publishersIdsInt is: ", publishersInt);
-
     const { rows } = await db.query(
         `
         SELECT games.id, games.title, covers.url AS cover FROM games
