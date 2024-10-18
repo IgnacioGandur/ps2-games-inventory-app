@@ -14,22 +14,13 @@
         <%- include('../partials/navbar.ejs') %>
         <main class='games'>
             <aside class="sort-sidebar">
-                <div class="sort">
-                    <h4>
-                        Sort games
-                    </h4>
-                    <div class="sort-options">
-                        <button>Alphabetically</button>
-                        <button>By date</button>
-                    </div>
-                </div>
                 <div class="filter">
                     <h4>Filter by genre</h4>
                     <% if (locals.genres ) { %>
-                        <form class='filter-genres options-container' action='/games/'>
+                        <form class='filter-genres options-container' action='/games/' method='GET'>
                             <% genres.forEach((genre) => { %>
                                 <div class='option'>
-                                    <input type="checkbox" name='genreFilter' id='<%= genre.name %>' value='<%= genre.id %>'>
+                                    <input type="checkbox" name='genreFilters[]' id='<%= genre.name %>' value='<%= genre.id %>'>
                                     <label for="<%= genre.name %>">
                                         <%= genre.name %>
                                     </label>
@@ -45,7 +36,7 @@
                         <form class='filter-publishers options-container'>
                             <% publishers.forEach((publisher) => { %>
                                 <div class='option'>
-                                    <input type="checkbox" name='publisherFilter' id='<%= publisher.name %>' value='<%= publisher.id %>'>
+                                    <input type="checkbox" name='publisherFilters[]' id='<%= publisher.name %>' value='<%= publisher.id %>'>
                                     <label for="<%= publisher.name %>">
                                         <%= publisher.name %>
                                     </label>
@@ -57,7 +48,22 @@
                 </div>
             </aside>
             <% if (locals.games) { %>
-                <div class='games-grid'>
+                <div class='games-grid' style="<%= locals.filters ? 'grid-template-rows: 75px repeat(auto-fit, 375px);' : 'grid-template-rows: repeat(auto-fit, 375px);' %>">
+                    <div class='filters' <%= locals.filters ? '' : "style=display:none;" %>>
+                        <% if (locals.filters) { %>
+                            <p>Filtering by <%= locals.filteringBy %>:</p>
+                            <ul>
+                                <% filters.forEach((genre) => { %>
+                                    <li>
+                                        <%= genre.name %>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        <% } %>
+                    </div> 
+                    <% if (games.length === 0) { %>
+                        <p class='no-matches'>No records matched your query.</p>
+                    <% } %>
                     <% games.forEach((game) => { %>
                         <div class="game" >
                             <img src="<%= game.cover %>" alt="<%= game.title %>" onerror="this.onerror=null; this.src='/images/ps2_games.jpg'">

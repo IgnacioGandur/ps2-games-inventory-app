@@ -92,8 +92,6 @@ async function getGameCover(gameId) {
         [gameId],
     );
 
-    console.log("getGAmeCovers function result: ", rows);
-
     return rows;
 }
 
@@ -183,6 +181,68 @@ async function checkIfDescriptionAlreadyExists(description) {
     }
 }
 
+async function getGamesByGenres(genres) {
+    const { rows } = await db.query(
+        `
+        SELECT * FROM (
+            SELECT DISTINCT games.id, games.title, covers.url AS cover 
+            FROM games
+            INNER JOIN covers ON games.id = covers.game_id
+            INNER JOIN games_genres ON games.id = games_genres.game_id
+            INNER JOIN genres ON games_genres.genre_id = genres.id
+            WHERE genres.id = ANY($1::int[])
+        ) AS distinct_games
+        ORDER BY title;
+    `,
+        [genres],
+    );
+
+    return rows;
+}
+
+async function getGenreNames(genreIds) {
+    const { rows } = await db.query(
+        `
+       SELECT genres.name FROM genres WHERE genres.id = ANY($1::int[]); 
+    `,
+        [genreIds],
+    );
+
+    return rows;
+}
+
+async function getGamesByPublishers(publishersIds) {
+    const publishersInt = [];
+
+    for (let i = 0; i < publishersIds.length; i++) {
+        publishersInt.push(Number(publishersIds[i]));
+    }
+
+    console.log("Array of publishersIdsInt is: ", publishersInt);
+
+    const { rows } = await db.query(
+        `
+        SELECT games.id, games.title, covers.url AS cover FROM games
+        INNER JOIN covers ON games.id = covers.game_id
+        INNER JOIN publishers ON games.publisher_id = publishers.id
+        WHERE publishers.id = ANY ($1::int[]) ORDER BY games.title;
+    `,
+        [publishersInt],
+    );
+
+    return rows;
+}
+
+async function getPublishersNames(publishersIds) {
+    const { rows } = await db.query(
+        `
+        SELECT publishers.name FROM publishers WHERE publishers.id = ANY ($1::int[]);
+    `,
+        [publishersIds],
+    );
+    return rows;
+}
+
 module.exports = {
     getAllGames,
     getAllGenres,
@@ -200,4 +260,8 @@ module.exports = {
     checkIfGameExists,
     checkIfCoverAlreadyExists,
     checkIfDescriptionAlreadyExists,
+    getGamesByGenres,
+    getGenreNames,
+    getGamesByPublishers,
+    getPublishersNames,
 };

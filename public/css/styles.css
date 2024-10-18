@@ -422,10 +422,36 @@ main {
 .games > .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-    grid-template-rows: repeat(auto-fit, 375px);
+    /*grid-template-rows: 75px repeat(auto-fit, 375px);*/
     gap: 0.5em;
     flex: 6;
     padding: 0 1em 0 0;
+}
+
+.games-grid > .filters {
+    grid-column: 1/-1;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-main);
+    gap: 1em;
+}
+
+.games-grid > .filters > p {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.games-grid > .filters > ul {
+    list-style-type: none;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.games-grid > .filters > ul > li {
+    background-color: var(--color-blue-transparent);
+    border: 1px solid var(--color-blue);
+    border-radius: 5px;
 }
 
 .games > .games-grid > .game {
@@ -812,7 +838,8 @@ main {
 
 .game-page > .game-details > .game-text > .publisher,
 .game-page > .game-details > .game-text > .container > .release-date,
-.game-page > .game-details > .game-text > .container > .genres > li {
+.game-page > .game-details > .game-text > .container > .genres > li,
+.games > .games-grid > .filters > ul > li {
     width: fit-content;
     padding: 0.5em;
     text-transform: capitalize;

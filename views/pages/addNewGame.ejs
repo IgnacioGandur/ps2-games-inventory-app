@@ -19,7 +19,7 @@
         <main class='add-game-form'>
             <% if (locals.errors) { %>
                 <ul class="errors">
-                    <p>The following inputs have problems, please check them:</p>
+                    <p>The following fields have problems, please check them:</p>
                     <% errors.forEach((error) => { %>
                         <li>
                             <%= error %>
@@ -28,8 +28,7 @@
                     <p>Would you like to check the <a href="/games">games</a> section to see if the record already exists before adding it?</p>
                 </ul>
             <% } %>
-            <%- include('../partials/addGameForm.ejs' %>) <%= inputValues %> %>
-            <!-- TODO: fix passing variables to the ejs file. -->
+            <%- include('../partials/addGameForm.ejs',{inputValues:inputValues}) %>
         </main>
         <%- include('../partials/footer.ejs') %>
     </body>

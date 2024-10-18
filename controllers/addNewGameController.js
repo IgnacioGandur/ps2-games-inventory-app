@@ -17,6 +17,7 @@ async function addNewGameGet(req, res) {
         title: "Add a new game",
         genres: genres,
         publishers: publishers,
+        inputValues: {},
     });
 }
 
