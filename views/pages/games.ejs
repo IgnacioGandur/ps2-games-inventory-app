@@ -9,15 +9,23 @@
         <title><%= title %></title>
         <link rel="stylesheet" href="/css/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <script defer src='/js/games.js'>
+            
+        </script>
     </head>
     <body>
         <%- include('../partials/navbar.ejs') %>
         <main class='games'>
             <aside class="sort-sidebar">
                 <div class="filter">
-                    <h4>Filter by genre</h4>
+                    <button data-toggle-genres type='button'>
+                        Filter by genre
+                        <span class='material-symbols-rounded genres-icon-span'>
+                            keyboard_arrow_down
+                        </span>
+                    </button>
                     <% if (locals.genres ) { %>
-                        <form class='filter-genres options-container' action='/games/' method='GET'>
+                        <form data-genres-container class='filter-genres options-container' action='/games/' method='GET'>
                             <% genres.forEach((genre) => { %>
                                 <div class='option'>
                                     <input type="checkbox" name='genreFilters[]' id='<%= genre.name %>' value='<%= genre.id %>'>
@@ -31,9 +39,14 @@
                     <% } %>
                 </div>
                 <div class="filter">
-                    <h4>Filter by publishers</h4>
+                    <button data-toggle-publishers type="button">
+                        Filter by publishers
+                        <span class='material-symbols-rounded publishers-icon-span'>
+                            keyboard_arrow_down
+                        </span>
+                    </button>
                     <% if (locals.publishers) { %>
-                        <form class='filter-publishers options-container'>
+                        <form data-publishers-container class='filter-publishers options-container'>
                             <% publishers.forEach((publisher) => { %>
                                 <div class='option'>
                                     <input type="checkbox" name='publisherFilters[]' id='<%= publisher.name %>' value='<%= publisher.id %>'>

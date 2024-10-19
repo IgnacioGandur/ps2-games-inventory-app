@@ -301,8 +301,8 @@ main {
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    gap: 3em;
-    flex: 1;
+    gap: 1em;
+    flex: 0 1 350px;
     border-right: 1px solid #ffffff22;
     padding: 1em;
 }
@@ -314,8 +314,25 @@ main {
     gap: 1em;
 }
 
-.games > .sort-sidebar > div > h4 {
+.games > .sort-sidebar > .filter > button {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 900;
+    color: white;
+    border: none;
+    cursor: pointer;
     font-family: var(--font-main);
+    border: 1px solid #ffffff22;
+    border-radius: 5px;
+    padding: 0.5em;
+    transition: all 200ms ease-in-out;
+}
+
+.games > .sort-sidebar > .filter > button:hover {
+    background-color: var(--color-blue-transparent);
+    border: 1px solid var(--color-blue);
 }
 
 .games > .sort-sidebar > div > .sort-options {
@@ -344,7 +361,7 @@ main {
 
 .games > .sort-sidebar > div > .options-container {
     flex: 1;
-    display: grid;
+    display: none;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
     flex-wrap: wrap;
@@ -459,7 +476,7 @@ main {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-template-rows: repeat(auto-fit, 375px);
+    grid-auto-rows: 375px;
     gap: 0.5em;
 }
 
