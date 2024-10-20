@@ -8,6 +8,7 @@
         />
         <title><%= title %></title>
         <link rel="stylesheet" href='css/styles.css'>
+        <script defer src="/js/index.js"></script>
     </head>
     <body>
         <main class='index-page'>
@@ -30,7 +31,7 @@
                         </div>
                         <span>Games</span>
                     </a>
-                    <a href='/genres' class='links-with-hidden-tags'>
+                    <a data-genres-link href='/genres' class='links-with-hidden-tags'>
                         <div class='indicator'>
                             <div class='diamond'>
                             </div>
@@ -38,17 +39,8 @@
                         <span>
                             Genres
                         </span>
-                        <% if(locals.genres) { %>
-                            <ul class='hidden-tags'>
-                                <% genres.forEach((genre, index) => { %>
-                                    <li style="animation-delay: <%= index * 50 %>ms">
-                                        <%= genre.name %>
-                                    </li>
-                                <% }) %>
-                            </ul>
-                        <% } %>
                     </a>
-                    <a href='/publishers' class='links-with-hidden-tags'>
+                    <a data-publishers-link href='/publishers' class='links-with-hidden-tags'>
                         <div class='indicator'>
                             <div class='diamond'>
                             </div>
@@ -56,15 +48,6 @@
                         <span>
                             Publishers
                         </span>
-                        <% if (locals.publishers) { %>
-                            <ul class="hidden-tags">
-                                <% publishers.forEach((publisher, index) => { %>
-                                    <li style="animation-delay: <%= index * 50 %>ms">
-                                        <%= publisher.name %>
-                                    </li>
-                                <% }) %>
-                            </ul>
-                        <% } %>
                     </a>
                     <a href='/about'>
                         <div class='indicator'>
@@ -84,6 +67,30 @@
                             Add new game
                         </span>
                     </a>
+                </div>
+                <div class='options-container'>
+                    <% if(locals.genres) { %>
+                        <ul data-genres-tags-container class='hidden-tags'>
+                            <% genres.forEach((genre, index) => { %>
+                                <a href="/games/?genreFilters%5B%5D=<%= genre.id %>" style="animation-delay: <%= index * 50 %>ms">
+                                    <div class='black-overlay'>
+                                        <%= genre.name %>
+                                    </div>
+                                </a>
+                            <% }) %>
+                        </ul>
+                    <% } %>
+                    <% if (locals.publishers) { %>
+                        <ul data-publishers-tags-container class="hidden-tags">
+                            <% publishers.forEach((publisher, index) => { %>
+                                <a href="/games/?publisherFilters%5B%5D=<%= publisher.id %>" style="animation-delay: <%= index * 25 %>ms">
+                                    <div class='black-overlay'>
+                                        <%= publisher.name %>
+                                    </div>
+                                </a>
+                            <% }) %>
+                        </ul>
+                    <% } %>
                 </div>
             </aside>
         </main>

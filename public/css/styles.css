@@ -283,7 +283,72 @@ main {
     background-color: var(--color-blue-transparent);
 }
 
-/*games page */
+.sidebar > .options-container > .hidden-tags {
+}
+
+.index-page > .sidebar > .options-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.index-page > .sidebar > .options-container > ul {
+    list-style-type: none;
+    display: none;
+    gap: 1em;
+    flex-wrap: wrap;
+    align-items: center;
+    height: fit-content;
+    padding: 1em;
+}
+
+.index-page > .sidebar > .options-container > ul.visible {
+    display: flex;
+}
+
+.index-page > .sidebar > .options-container > ul > a {
+    background-image: linear-gradient(
+        45deg,
+        transparent,
+        transparent,
+        transparent,
+        transparent,
+        var(--color-blue),
+        var(--color-green),
+        var(--color-yellow),
+        var(--color-red)
+    );
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-size: 800%;
+    border: 1px solid #ffffff22;
+    border-radius: 5px;
+    font-family: var(--font-main);
+    text-transform: capitalize;
+    cursor: pointer;
+    padding: 2px;
+    animation: scale-li 200ms ease-in-out forwards;
+    transition: all 500ms ease-in-out;
+    opacity: 0;
+    color:white;
+    text-decoration:none;
+    font-weight: 900;
+}
+
+.index-page > .sidebar > .options-container > ul > a:hover {
+    animation: scale-li 200ms ease-in-out forwards;
+    background-position: 90% 100%;
+    transform: scale(1.25);
+}
+
+.index-page > .sidebar > .options-container > ul > a > .black-overlay {
+    background-color:black;
+    border-radius: 5px;
+    padding: 1em;
+    width: 100%;
+    height: 100%;
+}
 
 .games {
     background-color: black;
@@ -379,9 +444,18 @@ main {
     padding: 1em;
     color: white;
     background-color: transparent;
-    border: 1px solid #ffffff22;
+    border: 1px solid #ffffff22; -
     font-family: var(--font-main);
     border-radius: 5px;
+    transition: all 300ms ease-in-out;
+    cursor:pointer;
+}
+
+.games > .sort-sidebar > div > form > button:hover {
+    transform: scale(1.01);
+    background-color: var(--color-yellow-transparent);
+    border: 1px solid var(--color-yellow);
+    color:white;
 }
 
 .games > .sort-sidebar > div > form > div {
@@ -391,6 +465,8 @@ main {
 .games > .sort-sidebar > div > form > div:last-of-type {
     grid-column: 1 / -1;
 }
+
+/*--*/
 
 .games > .sort-sidebar > div > form > div > label {
     width: 100%;
@@ -406,9 +482,9 @@ main {
 }
 
 .games > .sort-sidebar > div > form > div > label:hover {
-    background-color: #2d6cb3;
-    transform: scale(1.075);
-    /*animation: pop-up 400ms linear forwards;*/
+    background-color: var(--color-blue-transparent);
+    border: 1px solid var(--color-blue);
+    transform: scale(1.01);
 }
 
 .games > .sort-sidebar > div > form > div > label:active {
@@ -431,7 +507,8 @@ main {
     > div
     > input[type="checkbox"]:checked
     + label {
-    background-color: #00ab9e;
+    background-color: var(--color-green-transparent);
+    border: 1px solid var(--color-green);
 }
 
 /*games grid*/
@@ -838,7 +915,7 @@ main {
     position: relative;
 }
 
-.game-page > .game-details > .game-cover,
+.game-page > .gamedetails > .game-cover,
 .game-page > .game-details > object > .default-game-cover,
 .game-page > .game-details > .game-text {
     flex: 1;
@@ -1020,7 +1097,7 @@ main {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.05);
+        transform: scale(1.1);
     }
     100% {
         opacity: 1;
