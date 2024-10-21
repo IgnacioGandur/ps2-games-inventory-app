@@ -14,24 +14,40 @@
     </head>
     <body>
         <%- include('../partials/navbar.ejs') %>
-        <main>
+        <main class='genres-page'>
             <h1>
-                Ps 2 game genres
+                PS2 games genres list
             </h1>
+            <% if (locals.error) { %>
+                <div class='error'>
+                    <%= error %>
+                </div>
+            <% } %>
             <% if (locals.genres ) { %>
-                <ul>
+                <ul class='genres-container'>
                     <% genres.forEach((genre) => { %>
-                        <li>
-                            <%= genre.name %>
+                        <li class='genre'>
+                            <p>
+                                <%= genre.name %>
+                            </p>
+                            <form action="/genres/delete/<%= genre.id %>" method='POST'>
+                                <button title='Delete this tag' class='delete-button' type="submit">
+                                    <span class='material-symbols-rounded'>
+                                        close
+                                    </span>
+                                </button>
+                            </form>
                         </li>
-                        <form action="/genres/delete/<%= genre.id %>" method='POST'>
-                            <button type="submit">
-                                Delete this genre
-                            </button>
-                        </form>
                     <% }) %>
                 </ul>
             <% } %>
+            <form class='add-genre-form' action="/genres/addGenre" method='POST'>
+                <label for="genreName">
+                    Add a new genre tag
+                    <input type="text" name="genreName" id='genreName' minlength='3' placeholder='Action' required>
+                </label>
+                <button class='add-genre-button' type='submit'>Add</button>
+            </form>
         </main>
         <%- include('../partials/footer.ejs') %>
     </body>

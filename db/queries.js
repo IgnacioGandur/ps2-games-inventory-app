@@ -241,6 +241,30 @@ async function getPublishersNames(publishersIds) {
     return rows;
 }
 
+async function checkIfGenreExists(genreName) {
+    const { rows } = await db.query(
+        `
+        SELECT * FROM genres WHERE name ~* $1;
+    `,
+        [genreName],
+    );
+
+    if (rows.length != 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+async function addGenre(genreName) {
+    await db.query(
+        `
+        INSERT INTO genres (name) VALUES ($1) RETURNING id;
+    `,
+        [genreName],
+    );
+}
+
 module.exports = {
     getAllGames,
     getAllGenres,
@@ -262,4 +286,6 @@ module.exports = {
     getGenreNames,
     getGamesByPublishers,
     getPublishersNames,
+    checkIfGenreExists,
+    addGenre,
 };

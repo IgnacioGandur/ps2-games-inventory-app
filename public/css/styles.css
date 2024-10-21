@@ -41,6 +41,12 @@ main {
     flex: 1;
 }
 
+.genres-page,
+.add-game-form {
+    width: 100%;
+    max-width: 1250px;
+}
+
 /*navbar */
 
 .navbar {
@@ -187,7 +193,8 @@ main {
     border-radius: 5px;
 }
 
-.sidebar > .links > a:hover {
+.sidebar > .links > a:hover,
+.sidebar > .links > a.hover {
     background-color: var(--color-blue-transparent);
     border: 2px solid #ffffff22;
 }
@@ -329,10 +336,10 @@ main {
     cursor: pointer;
     padding: 2px;
     animation: scale-li 200ms ease-in-out forwards;
-    transition: all 500ms ease-in-out;
+    transition: all 700ms ease-out;
     opacity: 0;
-    color:white;
-    text-decoration:none;
+    color: white;
+    text-decoration: none;
     font-weight: 900;
 }
 
@@ -343,7 +350,7 @@ main {
 }
 
 .index-page > .sidebar > .options-container > ul > a > .black-overlay {
-    background-color:black;
+    background-color: black;
     border-radius: 5px;
     padding: 1em;
     width: 100%;
@@ -444,18 +451,18 @@ main {
     padding: 1em;
     color: white;
     background-color: transparent;
-    border: 1px solid #ffffff22; -
+    border: 1px solid #ffffff22;
     font-family: var(--font-main);
     border-radius: 5px;
     transition: all 300ms ease-in-out;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .games > .sort-sidebar > div > form > button:hover {
     transform: scale(1.01);
     background-color: var(--color-yellow-transparent);
     border: 1px solid var(--color-yellow);
-    color:white;
+    color: white;
 }
 
 .games > .sort-sidebar > div > form > div {
@@ -664,7 +671,6 @@ main {
 /*add game form */
 
 .add-game-form {
-    width: 50%;
     height: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -1018,6 +1024,131 @@ main {
 
 .game-page > .game-details > .game-text > .delete-button:active {
     transform: scale(0.95, 1);
+}
+
+/*Genres page*/
+
+.genres-page {
+    max-width: 1250px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-main);
+    padding: 1em;
+    gap: 1em;
+    align-self: center;
+}
+
+.genres-page > .error {
+    display: flex;
+    padding: 1em;
+    border: 1px solid var(--color-red);
+    background-color: var(--color-red-transparent);
+    border-radius: 5px;
+}
+
+.genres-page > .genres-container {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+.genres-page > .genres-container > .genre {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    padding: 0.5em;
+    background-color: var(--color-blue-transparent);
+    border: 1px solid var(--color-blue);
+    border-radius: 5px;
+}
+
+.genres-page > .genres-container > .genre > p {
+    text-transform: capitalize;
+}
+
+.genres-page > .genres-container > .genre > form > button.delete-button {
+    background-color: transparent;
+    padding: 0;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 300ms ease-in-out;
+}
+
+.genres-page > .genres-container > .genre > form > button.delete-button:hover {
+    transform: scale(1.25);
+}
+
+.genres-page > .genres-container > .genre > form > button.delete-button > span {
+    font-size: 1rem;
+}
+
+.genres-page > .add-genre-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.genres-page > .add-genre-form > label {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.genres-page > .add-genre-form > label:has(input:user-invalid)::before {
+    background-color: var(--color-red-transparent);
+    border: 1px solid var(--color-red);
+    padding: 1em;
+
+    content: "Invalid genre name. Should be at least 3 characters long and unique.";
+    font-style: italic;
+}
+
+.genres-page > .add-genre-form > label > input {
+    background-color: black;
+    padding: 0.5em;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
+}
+
+.genres-page > .add-genre-form > label > input:focus,
+.genres-page > .add-genre-form > label > input:focus-visible {
+    border: 1px solid var(--color-blue);
+    background-color: var(--color-blue-transparent);
+}
+
+.genres-page > .add-genre-form > label > input:hover {
+    border: 1px solid var(--color-yellow);
+}
+
+.genres-page > .add-genre-form > label > input:user-valid {
+    border: 1px solid var(--color-green);
+    background-color: var(--color-green-transparent);
+}
+
+.genres-page > .add-genre-form > label > input:user-invalid {
+    border: 1px solid var(--color-red);
+    background-color: var(--color-red-transparent);
+}
+
+.genres-page > .add-genre-form > .add-genre-button {
+    background-color: black;
+    color: white;
+    padding: 0.5em;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.genres-page > .add-genre-form > .add-genre-button:hover {
+    border: 1px solid var(--color-yellow);
+    background-color: var(--color-yellow-transparent);
+    cursor: pointer;
 }
 
 /*footer*/

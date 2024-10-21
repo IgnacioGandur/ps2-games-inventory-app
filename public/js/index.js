@@ -49,10 +49,12 @@ genresTagsContainer.addEventListener("mouseenter", (e) => {
     if (e.target.classList.contains("visible")) {
         return;
     }
+    genresLink.classList.add("hover");
     e.target.classList.add("visible");
 });
 
 genresTagsContainer.addEventListener("mouseleave", (e) => {
+    genresLink.classList.remove("hover");
     e.target.classList.remove("visible");
 });
 
