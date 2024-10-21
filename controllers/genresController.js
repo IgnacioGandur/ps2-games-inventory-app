@@ -25,15 +25,19 @@ async function addGenrePost(req, res) {
     const { genreName } = req.body;
     const alreadyExists = await checkIfGenreExists(genreName);
     if (alreadyExists) {
-        const error = `The genre "${genreName}" already exists in the database.`;
         return res.render("pages/genres", {
             title: "Genre already exists",
             genres: genres,
-            error: error,
+            error: `The genre "${genreName}" already exists in the database.`,
         });
     } else {
         await addGenre(genreName);
-        res.redirect("/genres");
+        const genres = await getAllGenres();
+        return res.render("pages/genres", {
+            title: "PS2 Games Genres",
+            genres: genres,
+            successMessage: `The record "${genreName}" was successfully inserted into the database.`,
+        });
     }
 }
 

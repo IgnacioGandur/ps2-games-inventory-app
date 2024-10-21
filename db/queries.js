@@ -259,9 +259,33 @@ async function checkIfGenreExists(genreName) {
 async function addGenre(genreName) {
     await db.query(
         `
-        INSERT INTO genres (name) VALUES ($1) RETURNING id;
+        INSERT INTO genres (name) VALUES ($1);
     `,
         [genreName],
+    );
+}
+
+async function checkIfPublisherExists(publisherName) {
+    const { rows } = await db.query(
+        `
+        SELECT * FROM publishers WHERE publishers.name ~* $1;
+    `,
+        [publisherName],
+    );
+
+    if (rows.length != 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+async function addPublisher(publisherName) {
+    await db.query(
+        `
+        INSERT INTO publishers (name) VALUES ($1);
+    `,
+        [publisherName],
     );
 }
 
@@ -288,4 +312,6 @@ module.exports = {
     getPublishersNames,
     checkIfGenreExists,
     addGenre,
+    checkIfPublisherExists,
+    addPublisher,
 };

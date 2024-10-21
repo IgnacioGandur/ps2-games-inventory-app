@@ -14,26 +14,45 @@
     </head>
     <body>
         <%- include('../partials/navbar.ejs') %>
-        <main>
+        <main class='publishers-page'>
             <h1>
-                <%= title %>
+                PS2 Game Publishers List
             </h1>
+            <% if (locals.error) { %>
+                <p class='error'>
+                    <%= error %>
+                </p>
+            <% } %>
+            <% if (locals.successMessage) { %>
+                <p class='success-message'>
+                    <%= successMessage %>
+                </p>
+            <% } %>
             <% if(locals.publishers) { %>
-            <ul>
-                    <% publishers.forEach((publisher) => { %>
-                        <li>
-                            <h2>
-                                <%= publisher.name %>
-                            </h2>
-                            <form action='/publishers/delete/<%= publisher.id %>' method='POST'>
-                                <button type='submit'>
-                                    Delete this publisher
-                                </button>
-                            </form>
-                        </li>
-                    <% }) %>
+            <ul class='publishers-container'>
+                <% publishers.forEach((publisher) => { %>
+                    <li class='publisher'>
+                        <p>
+                            <%= publisher.name %>
+                        </p>
+                        <form action='/publishers/delete/<%= publisher.id %>' method='POST'>
+                            <button title='Delete this tag' class='delete-button' type='submit'>
+                                <span class='material-symbols-rounded'>
+                                    close
+                                </span>
+                            </button>
+                        </form>
+                    </li>
+                <% }) %>
             </ul>
             <% } %>
+            <form class='add-publisher-form' action="/publishers/addPublisher" method='POST'>
+                <label for="publisherName">
+                    <p>Publisher Name</p>
+                    <input type="text" name='publisherName' id="publisherName" minlength='3' placeholder="Activision" required>
+                </label>
+                <button class='add-publisher-button' type='submit'>Add publisher</button>
+            </form>
         </main>
         <%- include('../partials/footer.ejs') %>
     </body>

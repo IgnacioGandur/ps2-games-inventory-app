@@ -16,12 +16,17 @@
         <%- include('../partials/navbar.ejs') %>
         <main class='genres-page'>
             <h1>
-                PS2 games genres list
+                PS2 Games Genres List
             </h1>
             <% if (locals.error) { %>
-                <div class='error'>
+                <p class='error'>
                     <%= error %>
-                </div>
+                </p>
+            <% } %>
+            <% if (locals.successMessage) { %>
+                <p class='success-message'>
+                    <%= successMessage %>
+                </p>
             <% } %>
             <% if (locals.genres ) { %>
                 <ul class='genres-container'>
