@@ -1206,8 +1206,6 @@ main {
 
 .about-page > .tools-container {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
     padding: 1em;
     list-style-type: none;
     gap: 1em;
@@ -1215,71 +1213,29 @@ main {
 
 .about-page > .tools-container > .tool {
     position: relative;
-    width: 120px;
-    height: 60px;
-    z-index: 20;
-    overflow: hidden;
-    border-radius: 5px;
 }
 
 .about-page > .tools-container > .tool > .background {
-    background-image: linear-gradient(
-        45deg,
-        var(--color-blue-transparent),
-        var(--color-green-transparent),
-        var(--color-green-transparent),
-        var(--color-yellow-transparent),
-        var(--color-red-transparent),
-        var(--color-blue),
-        var(--color-green),
-        var(--color-yellow),
-        var(--color-red),
-        var(--color-red)
-    );
-    background-size: 200%;
-    background-position: left bottom;
-    width: 150%;
-    height: 250%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.about-page > .tools-container > .tool > .tool-name {
+    background-color: red;
+    width: 100%;
+    height: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all 500ms ease-in-out;
-    border-radius: 5px;
 }
 
-.about-page > .tools-container > .tool > .tool-name {
-    width: calc(100% - 5px);
-    height: calc(100% - 5px);
-    background-color: black;
-    padding: 1em;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    color: white;
-    border-radius: 5px;
-}
-
-.about-page > .tools-container > .tool:hover > .background,
-.about-page > .tools-container > .tool:focus > .background,
-.about-page > .tools-container > .tool:focus-visible > .background {
-    animation: animateBackground 2s ease-in-out infinite alternate;
-    background-position: right top;
-}
-
-@keyframes animateBackground {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+.about-page > .tools-container > .tool-name:hover,
+.about-page > .tools-container > .tool-name:focus,
+.about-page > .tools-container > .tool-name:focus-visible {
 }
 
 /*footer*/
