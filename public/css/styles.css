@@ -1414,29 +1414,16 @@ main {
 .about-page > .tools-container > .tool > .background {
     background-image: linear-gradient(
         45deg,
-<<<<<<< HEAD
-        #ffffff22,
-        #ffffff22,
-        #ffffff22,
-        #ffffff22,
-        #ffffff22,
-        #ffffff22,
-        #ffffff22,
-=======
         var(--color-blue-transparent),
         var(--color-green-transparent),
         var(--color-green-transparent),
         var(--color-yellow-transparent),
         var(--color-red-transparent),
->>>>>>> confirmDeletion
         var(--color-blue),
         var(--color-green),
         var(--color-yellow),
         var(--color-red),
-<<<<<<< HEAD
         var(--color-red),
-=======
->>>>>>> confirmDeletion
         var(--color-red)
     );
     background-size: 200%;
