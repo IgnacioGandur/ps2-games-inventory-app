@@ -1,0 +1,16 @@
+<div data-deletion-modal class='deletion-modal'>
+    <form data-delete-form class='delete-form'  action='/games/delete/<%= gameId %>' method='POST'>
+        <label for='confirmationPassword'>
+            Enter the password to confirm the deletion of this game.
+            <input type='text' name='confirmationPassword' id='confirmationPassword' required>
+        </label>
+        <div class='buttons-container'>
+            <button data-hide-deletion-modal-button class='cancel-button' type='button'>
+                Cancel
+            </button>
+            <button data-confirm-deletion-button class='confirm-button' type='submit'>
+                Confirm
+            </button>
+        </div>
+    </form>
+</div>

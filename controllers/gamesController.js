@@ -71,20 +71,42 @@ async function gamePageGet(req, res) {
     const gameCover = await getGameCover(gameId);
     const gamePublisher = await getGamePublisher(gameId);
 
+    const passwordError =
+        req.query.error === "wrongPassword"
+            ? "Wrong password. You can't delete this game unless you know the password."
+            : null;
+
     res.render("pages/gamePage", {
         title: gameData[0].title,
+        gameId: gameId,
         gameData: gameData[0],
         gameGenres: gameGenres,
         gameCover: gameCover[0],
         gamePublisher: gamePublisher[0],
         gameReleaseDate: format(gameData[0].release_date, "LLLL ho, yyyy"),
+        passwordError: passwordError,
     });
 }
 
+function checkPassword(password) {
+    if (password === process.env.DELETION_PASSWORD) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 async function deleteGamePost(req, res) {
+    const { confirmationPassword } = req.body;
     const { gameId } = req.params;
-    await deleteGame(gameId);
-    res.redirect("/games");
+    const isValidPassword = checkPassword(confirmationPassword);
+
+    if (isValidPassword) {
+        await deleteGame(gameId);
+        return res.redirect("/games");
+    } else {
+        return res.redirect(`/games/${gameId}?error=wrongPassword`);
+    }
 }
 
 module.exports = {
