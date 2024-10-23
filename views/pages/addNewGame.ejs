@@ -28,6 +28,16 @@
                     <p>Would you like to check the <a href="/games">games</a> section to see if the record already exists before adding it?</p>
                 </ul>
             <% } %>
+            <% if (locals.validationErrors) { %>
+                <ul class='errors'>
+                    <p>There's something wrong with the following fields, please check if they meet the expected constraints.</p>
+                    <% validationErrors.forEach((error) => { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
             <%- include('../partials/addGameForm.ejs',{inputValues:inputValues}) %>
         </main>
         <%- include('../partials/footer.ejs') %>
