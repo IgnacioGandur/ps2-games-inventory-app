@@ -11,10 +11,17 @@
         </title>
         <link rel="stylesheet" href="/css/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <script defer src='/js/gamePage.js'></script>
     </head>
     <body>
+        <%- include('../partials/confirmDeletionModal.ejs', {gameId}) %>
         <%- include('../partials/navbar.ejs') %>
         <main class='game-page'>
+            <% if (locals.passwordError) { %>
+                <p class='password-error'>
+                    <%= passwordError %>
+                </p>
+            <% } %>
             <div class="game-details">
                 <object class='game-cover' data="<%= gameCover.cover %>" type="image/jpg">
                     <img class='default-game-cover' src='/images/ps2_games.jpg' />
@@ -54,7 +61,7 @@
                             </ul>
                         </div>
                     <% } %>
-                    <button class='delete-button'>Delete this game</button>
+                    <button data-delete-game-button class='delete-button'>Delete this game</button>
                 </div>
             </div>
         </main>
