@@ -13,6 +13,8 @@ function validateCheckboxes() {
     }
 }
 
+validateCheckboxes();
+
 checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("input", validateCheckboxes);
 });

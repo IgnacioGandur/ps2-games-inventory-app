@@ -5,10 +5,54 @@ const togglePublishersButton = document.querySelector(
 const genresButtonIcon = document.querySelector(".genres-icon-span");
 const publishersButtonIcon = document.querySelector(".publishers-icon-span");
 
-const genresContainer = document.querySelector("[data-genres-container]");
-const publishersContainer = document.querySelector(
-    "[data-publishers-container]",
-);
+const genresForm = document.querySelector("[data-genres-form]");
+const publishersForm = document.querySelector("[data-publishers-form]");
+const allGenresBoxes = document.querySelectorAll("[data-genre-box]");
+const allPublishersBoxes = document.querySelectorAll("[data-publisher-box]");
+
+function validateBox(boxes) {
+    // Transform the node list in to an array, then check if any box is checked.
+    const anyChecked = [...boxes].some((box) => box.checked);
+
+    // If no boxes are checked then alert the user.
+    if (!anyChecked) {
+        boxes[0].setCustomValidity("Select at least one option to filter.");
+    } else {
+        boxes[0].setCustomValidity("");
+    }
+}
+
+validateBox(allGenresBoxes);
+
+allGenresBoxes.forEach((box) => {
+    box.addEventListener("input", () => {
+        validateBox(allGenresBoxes);
+    });
+});
+
+genresForm.addEventListener("submit", (e) => {
+    validateBox(allGenresBoxes);
+
+    if (!genresForm.checkValidity()) {
+        e.preventDefault();
+    }
+});
+
+validateBox(allPublishersBoxes);
+
+allPublishersBoxes.forEach((box) => {
+    box.addEventListener("input", () => {
+        validateBox(allPublishersBoxes);
+    });
+});
+
+publishersForm.addEventListener("submit", (e) => {
+    validateBox(allPublishersBoxes);
+
+    if (!publishersForm.checkValidity()) {
+        e.preventDefault();
+    }
+});
 
 let showGenres = false;
 let showPublishers = false;
@@ -18,10 +62,10 @@ function toggleVisibility(filter) {
         showGenres = !showGenres;
 
         if (showGenres) {
-            genresContainer.style.display = "grid";
+            genresForm.style.display = "grid";
             genresButtonIcon.innerHTML = "keyboard_arrow_up";
         } else {
-            genresContainer.style.display = "none";
+            genresForm.style.display = "none";
             genresButtonIcon.innerHTML = "keyboard_arrow_down";
         }
     }
@@ -30,10 +74,10 @@ function toggleVisibility(filter) {
         showPublishers = !showPublishers;
 
         if (showPublishers) {
-            publishersContainer.style.display = "grid";
+            publishersForm.style.display = "grid";
             publishersButtonIcon.innerHTML = "keyboard_arrow_up";
         } else {
-            publishersContainer.style.display = "none";
+            publishersForm.style.display = "none";
             publishersButtonIcon.innerHTML = "keyboard_arrow_down";
         }
     }

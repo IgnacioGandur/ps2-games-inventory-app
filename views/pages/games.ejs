@@ -9,9 +9,7 @@
         <title><%= title %></title>
         <link rel="stylesheet" href="/css/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <script defer src='/js/games.js'>
-            
-        </script>
+        <script defer src='/js/games.js'></script>
     </head>
     <body>
         <%- include('../partials/navbar.ejs') %>
@@ -25,10 +23,10 @@
                         </span>
                     </button>
                     <% if (locals.genres ) { %>
-                        <form data-genres-container class='filter-genres options-container' action='/games/' method='GET'>
+                        <form data-genres-form class='filter-genres options-container' action='/games/' method='GET'>
                             <% genres.forEach((genre) => { %>
                                 <div class='option'>
-                                    <input type="checkbox" name='genreFilters[]' id='<%= genre.name %>' value='<%= genre.id %>'>
+                                    <input data-genre-box type="checkbox" name='genreFilters[]' id='<%= genre.name %>' value='<%= genre.id %>'>
                                     <label for="<%= genre.name %>">
                                         <%= genre.name %>
                                     </label>
@@ -46,10 +44,10 @@
                         </span>
                     </button>
                     <% if (locals.publishers) { %>
-                        <form data-publishers-container class='filter-publishers options-container'>
+                        <form data-publishers-form class='filter-publishers options-container'>
                             <% publishers.forEach((publisher) => { %>
                                 <div class='option'>
-                                    <input type="checkbox" name='publisherFilters[]' id='<%= publisher.name %>' value='<%= publisher.id %>'>
+                                    <input data-publisher-box type="checkbox" name='publisherFilters[]' id='<%= publisher.name %>' value='<%= publisher.id %>'>
                                     <label for="<%= publisher.name %>">
                                         <%= publisher.name %>
                                     </label>
@@ -76,20 +74,21 @@
                     </div> 
                     <% if (games.length === 0) { %>
                         <p class='no-matches'>No records matched your query.</p>
+                    <% } else { %>
+                        <div class='games-container'>
+                            <% games.forEach((game) => { %>
+                                <div class="game" >
+                                    <img src="<%= game.cover %>" alt="<%= game.title %>" onerror="this.onerror=null; this.src='/images/ps2_games.jpg'">
+                                    <div class="gradient-overlay"></div>
+                                    <a href="/games/<%= game.id %>">
+                                        <h3>
+                                            <%= game.title %>
+                                        </h3> 
+                                    </a>
+                                </div>
+                            <% }) %>
+                        </div>
                     <% } %>
-                    <div class='games-container'>
-                        <% games.forEach((game) => { %>
-                            <div class="game" >
-                                <img src="<%= game.cover %>" alt="<%= game.title %>" onerror="this.onerror=null; this.src='/images/ps2_games.jpg'">
-                                <div class="gradient-overlay"></div>
-                                <a href="/games/<%= game.id %>">
-                                    <h3>
-                                        <%= game.title %>
-                                    </h3> 
-                                </a>
-                            </div>
-                        <% }) %>
-                    </div>
                 </div>
             <% } %>
         </main>

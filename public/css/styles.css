@@ -533,6 +533,17 @@ main {
     padding: 0 1em 0 0;
 }
 
+.games > .games-grid > .no-matches {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-family: var(--font-main);
+    text-align: center;
+}
+
 .games-grid > .filters {
     grid-column: 1/-1;
     display: flex;
@@ -864,7 +875,6 @@ main {
     gap: 0.5em;
     align-items: center;
     position: relative;
-    border: 1px solid #ffffff22;
     border-radius: 5px;
 }
 
@@ -877,6 +887,7 @@ main {
     cursor: pointer;
     z-index: 10;
     transition: all 250ms ease-out;
+    border: 1px solid #ffffff22;
 }
 
 .add-game-form > form > .options-container > .option > label:hover {
@@ -933,8 +944,8 @@ main {
 }
 
 .add-game-form > form > .submit-form-button:hover {
-    background-color: white;
-    color: black;
+    background-color: var(--color-yellow-transparent);
+    border: 1px solid var(--color-yellow);
 }
 
 /*game page*/
