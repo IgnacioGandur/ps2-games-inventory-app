@@ -523,6 +523,61 @@ main {
     border: 1px solid var(--color-green);
 }
 
+.games > .sort-sidebar > .search-form {
+    border: 1px solid #ffffff22;
+    padding: 0.5em;
+    border-radius: 5px;
+}
+.games > .sort-sidebar > .search-form,
+.games > .sort-sidebar > .search-form > label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    font-family: var(--font-main);
+}
+
+.games > .sort-sidebar > .search-form > label {
+    font-weight: 900;
+    font-size: 0.75rem;
+}
+
+.games > .sort-sidebar > .search-form > label > input {
+    background-color: black;
+    color: white;
+    border: 1px solid #ffffff22;
+    border-radius: 5px;
+    padding: 0.5em;
+    transition: all 300ms ease-in-out;
+}
+
+.games > .sort-sidebar > .search-form > label > input:hover {
+    border: 1px solid var(--color-yellow);
+    background-color: var(--color-yellow-transparent);
+}
+
+.games > .sort-sidebar > .search-form > label > input:focus,
+.games > .sort-sidebar > .search-form > label > input:focus-visible {
+    border: 1px solid var(--color-blue);
+    background-color: var(--color-blue-transparent);
+}
+
+.games > .sort-sidebar > .search-form > button {
+    background-color: transparent;
+    color: white;
+    border: 1px solid #ffffff22;
+    padding: 0.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+}
+
+.games > .sort-sidebar > .search-form > button:hover,
+.games > .sort-sidebar > .search-form > button:focus,
+.games > .sort-sidebar > .search-form > button:focus-visible {
+    border: 1px solid var(--color-green);
+    background-color: var(--color-green-transparent);
+}
+
 /*games grid*/
 
 .games > .games-grid {
@@ -542,6 +597,15 @@ main {
     font-weight: 900;
     font-family: var(--font-main);
     text-align: center;
+}
+
+.games > .games-grid > .search-result {
+    padding: 1em;
+    border: 1px solid var(--color-blue);
+    text-align: center;
+    background-color: var(--color-blue-transparent);
+    font-family: var(--font-main);
+    font-weight: 900;
 }
 
 .games-grid > .filters {
@@ -1481,6 +1545,29 @@ main {
     100% {
         transform: translate(-50%, -50%) rotate(360deg);
     }
+}
+
+/*404 page*/
+.not-found-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3em;
+    font-family: var(--font-main);
+    padding: 1em;
+    text-align: center;
+}
+
+.not-found-page > h1 {
+    font-size: 3rem;
+}
+
+.not-found-page > p {
+    font-weight: 900;
+}
+
+.not-found-page > p > a {
+    color: var(--color-blue);
 }
 
 /*footer*/

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>404 Page</title>
+        <link rel="stylesheet" href="/css/styles.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    </head>
+    <body>
+        <%- include('../partials/navbar.ejs') %>
+        <main class='not-found-page'>
+            <h1>
+                <%= locals.title %>
+            </h1>
+            <p>
+                <%= locals.error %>
+            </p>
+            <p>Go back to the <a href="/">homepage</a>.</p>
+        </main>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>

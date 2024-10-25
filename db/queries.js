@@ -289,6 +289,36 @@ async function addPublisher(publisherName) {
     );
 }
 
+async function checkIfGameExistsById(gameId) {
+    const { rows } = await db.query(
+        `
+        SELECT * FROM games WHERE games.id = $1;
+    `,
+        [gameId],
+    );
+
+    if (rows.length === 0) {
+        // The game doesn't exists.
+        return false;
+    } else {
+        return true;
+    }
+}
+
+async function searchGameByTitle(gameTitle) {
+    const searchTerm = `%${gameTitle}%`;
+    const { rows } = await db.query(
+        `
+        SELECT games.id, games.title, covers.url AS cover FROM games
+        INNER JOIN covers ON games.id = covers.game_id 
+        WHERE games.title LIKE $1;
+    `,
+        [searchTerm],
+    );
+
+    return rows;
+}
+
 module.exports = {
     getAllGames,
     getAllGenres,
@@ -314,4 +344,6 @@ module.exports = {
     addGenre,
     checkIfPublisherExists,
     addPublisher,
+    checkIfGameExistsById,
+    searchGameByTitle,
 };

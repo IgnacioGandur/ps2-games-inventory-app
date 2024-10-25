@@ -12,6 +12,8 @@ const {
     getGenreNames,
     getGamesByPublishers,
     getPublishersNames,
+    checkIfGameExistsById,
+    searchGameByTitle,
 } = require("../db/queries");
 
 async function gamesGet(req, res) {
@@ -34,8 +36,6 @@ async function gamesGet(req, res) {
     }
 
     if (publisherFilters) {
-        // TODO: Set everything of the publishers filter.
-
         const games = await getGamesByPublishers(publisherFilters);
         const genres = await getAllGenres();
         const publishers = await getAllPublishers();
@@ -66,26 +66,42 @@ async function gamesGet(req, res) {
 async function gamePageGet(req, res) {
     const { gameId } = req.params;
 
-    const gameData = await getGameById(gameId);
-    const gameGenres = await getGameGenres(gameId);
-    const gameCover = await getGameCover(gameId);
-    const gamePublisher = await getGamePublisher(gameId);
+    if (isNaN(gameId)) {
+        return res.status(404).render("pages/404", {
+            title: "Invalid search parameter.",
+            error: `The game id you passed in the url is not right. Expected: Integer. Received: ${gameId}.`,
+        });
+    }
 
-    const passwordError =
-        req.query.error === "wrongPassword"
-            ? "Wrong password. You can't delete this game unless you know the password."
-            : null;
+    const gameExists = await checkIfGameExistsById(gameId);
 
-    res.render("pages/gamePage", {
-        title: gameData[0].title,
-        gameId: gameId,
-        gameData: gameData[0],
-        gameGenres: gameGenres,
-        gameCover: gameCover[0],
-        gamePublisher: gamePublisher[0],
-        gameReleaseDate: format(gameData[0].release_date, "LLLL ho, yyyy"),
-        passwordError: passwordError,
-    });
+    if (gameExists) {
+        const gameData = await getGameById(gameId);
+        const gameGenres = await getGameGenres(gameId);
+        const gameCover = await getGameCover(gameId);
+        const gamePublisher = await getGamePublisher(gameId);
+
+        const passwordError =
+            req.query.error === "wrongPassword"
+                ? "Wrong password. You can't delete this game unless you know the password."
+                : null;
+
+        return res.render("pages/gamePage", {
+            title: gameData[0].title,
+            gameId: gameId,
+            gameData: gameData[0],
+            gameGenres: gameGenres,
+            gameCover: gameCover[0],
+            gamePublisher: gamePublisher[0],
+            gameReleaseDate: format(gameData[0].release_date, "LLLL ho, yyyy"),
+            passwordError: passwordError,
+        });
+    } else {
+        return res.status(404).render("pages/404", {
+            title: "Game Not Found",
+            error: "The game you are looking for doesn't exists.",
+        });
+    }
 }
 
 function checkPassword(password) {
@@ -109,8 +125,25 @@ async function deleteGamePost(req, res) {
     }
 }
 
+async function gamesSearch(req, res) {
+    const { searchTerm } = req.query;
+
+    const queryResults = await searchGameByTitle(searchTerm);
+    const genres = await getAllGenres();
+    const publishers = await getAllPublishers();
+
+    res.render("pages/games", {
+        title: "Search results",
+        games: queryResults,
+        genres: genres,
+        publishers: publishers,
+        searchResult: `Showing search results for the term: "${searchTerm}".`,
+    });
+}
+
 module.exports = {
     gamesGet,
     gamePageGet,
     deleteGamePost,
+    gamesSearch,
 };

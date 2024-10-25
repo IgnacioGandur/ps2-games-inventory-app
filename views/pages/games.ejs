@@ -15,9 +15,16 @@
         <%- include('../partials/navbar.ejs') %>
         <main class='games'>
             <aside class="sort-sidebar">
+                <form class='search-form' action="/games/search" action='GET'>
+                    <label for="searchTerm">
+                        Search game title
+                        <input type="text" name="searchTerm" id="searchTerm" placeholder="Game title here..." required>
+                    </label>
+                    <button type="submit">Search</button>
+                </form>
                 <div class="filter">
                     <button data-toggle-genres type='button'>
-                        Filter by genre
+                        Filter by genres
                         <span class='material-symbols-rounded genres-icon-span'>
                             keyboard_arrow_down
                         </span>
@@ -72,6 +79,9 @@
                             </ul>
                         <% } %>
                     </div> 
+                    <% if (locals.searchResult) { %>
+                        <p class='search-result'><%= searchResult %></p>
+                    <% } %>
                     <% if (games.length === 0) { %>
                         <p class='no-matches'>No records matched your query.</p>
                     <% } else { %>
