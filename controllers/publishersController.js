@@ -14,9 +14,35 @@ async function publishersGet(req, res) {
 }
 
 async function publishersDeletePost(req, res) {
+    function checkPassword(password) {
+        if (password === process.env.DELETION_PASSWORD) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     const { publisherId } = req.params;
-    await deletePublisher(publisherId);
-    res.redirect("/publishers");
+    const { deletePublisherPass } = req.body;
+
+    const isValidPassword = checkPassword(deletePublisherPass);
+
+    if (isValidPassword) {
+        await deletePublisher(publisherId);
+        const publishers = await getAllPublishers();
+        return res.render("pages/publishers", {
+            title: "PS2 Game Publishers",
+            publishers: publishers,
+            successDeleteResponse: "Publisher deleted successfully.",
+        });
+    } else {
+        const publishers = await getAllPublishers();
+        return res.render("pages/publishers", {
+            title: "PS2 Game Publishers",
+            publishers: publishers,
+            failedDeleteResponse:
+                "Invalid password. You can't delete a record unless you know the password.",
+        });
+    }
 }
 
 async function addPublisherPost(req, res) {

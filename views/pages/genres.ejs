@@ -11,13 +11,35 @@
         </title>
         <link rel="stylesheet" href="/css/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <script defer src='/js/genres.js'></script>
     </head>
     <body>
         <%- include('../partials/navbar.ejs') %>
+        <div data-delete-genre-modal class='delete-genre-modal'>
+            <form data-delete-genre-form class='delete-form' action="#" method='POST'>
+                <label for="deleteGenrePass">
+                    Enter the admin password to delete this genre
+                    <input data-delete-genre-pass type="password" name="deleteGenrePass" id="deleteGenrePass" required>
+                </label>
+                <div class='buttons-container'>
+                    <button data-delete-genre-button-cancel >
+                        Cancel
+                    </button>
+                    <button data-delete-genre-button type='submit' >
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
         <main class='genres-page'>
             <h1>
                 PS2 Games Genres List
             </h1>
+            <% if(locals.successDeleteResponse || locals.failedDeleteResponse) { %>
+                <p class='<%= locals.successDeleteResponse ? "success-message" : "error" %>'>
+                    <%= locals.successDeleteResponse ? successDeleteResponse : failedDeleteResponse %>
+                </p>
+            <% } %>
             <% if (locals.error) { %>
                 <p class='error'>
                     <%= error %>
@@ -35,13 +57,11 @@
                             <p>
                                 <%= genre.name %>
                             </p>
-                            <form action="/genres/delete/<%= genre.id %>" method='POST'>
-                                <button title='Delete this tag' class='delete-button' type="submit">
-                                    <span class='material-symbols-rounded'>
-                                        close
-                                    </span>
-                                </button>
-                            </form>
+                            <button data-delete-genre-button onclick='setTargetGenre(<%= genre.id %>)' title='Delete this tag' class='delete-button' type="submit">
+                                <span class='material-symbols-rounded'>
+                                    close
+                                </span>
+                            </button>
                         </li>
                     <% }) %>
                 </ul>
