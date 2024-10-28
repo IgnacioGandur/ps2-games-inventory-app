@@ -15,6 +15,7 @@ const {
     checkIfGameExistsById,
     searchGameByTitle,
 } = require("../db/queries");
+const { query, validationResult } = require("express-validator");
 
 async function gamesGet(req, res) {
     const { genreFilters, publisherFilters } = req.query;
@@ -125,21 +126,46 @@ async function deleteGamePost(req, res) {
     }
 }
 
-async function gamesSearch(req, res) {
-    const { searchTerm } = req.query;
+const validateSearch = [
+    query("searchTerm")
+        .trim()
+        .notEmpty()
+        .withMessage("The search term can't be empty.")
+        .exists()
+        .withMessage("The search term is required.")
+        .isLength({ min: 1 })
+        .withMessage("The search term requires at least 1 character."),
+];
 
-    const queryResults = await searchGameByTitle(searchTerm);
-    const genres = await getAllGenres();
-    const publishers = await getAllPublishers();
+const gamesSearch = [
+    validateSearch,
+    async (req, res) => {
+        const { searchTerm } = req.query;
+        const queryResults = await searchGameByTitle(searchTerm);
+        const genres = await getAllGenres();
+        const publishers = await getAllPublishers();
+        const validationErrors = validationResult(req);
 
-    res.render("pages/games", {
-        title: "Search results",
-        games: queryResults,
-        genres: genres,
-        publishers: publishers,
-        searchResult: `Showing search results for the term: "${searchTerm}".`,
-    });
-}
+        if (!validationErrors.isEmpty()) {
+            const games = await getAllGames();
+            return res.status(400).render("pages/games", {
+                title: "PS2 Games Vault | Games",
+                genres: genres,
+                publishers: publishers,
+                games: games,
+                validationErrors: validationErrors.array(),
+            });
+        }
+
+        res.render("pages/games", {
+            title: "Search results",
+            games: queryResults,
+            genres: genres,
+            publishers: publishers,
+            searchResult: `Showing search results for the titles that contain the term: "${searchTerm}".`,
+        });
+    },
+];
 
 module.exports = {
     gamesGet,

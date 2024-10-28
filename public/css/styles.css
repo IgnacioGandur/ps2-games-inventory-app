@@ -384,6 +384,25 @@ main {
     padding: 1em;
 }
 
+.games > .sort-sidebar > p {
+    font-family: var(--font-main);
+    font-weight: 900;
+    font-size: 0.85rem;
+}
+
+.games > .sort-sidebar > .validation-errors {
+    background-color: var(--color-red-transparent);
+    padding: 1em;
+    gap: 0.5em;
+    border: 1px solid var(--color-red);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-main);
+    font-weight: 900;
+    font-size: 0.85rem;
+    list-style-type: none;
+}
+
 .games > .sort-sidebar > .sort,
 .games > .sort-sidebar > .filter {
     display: flex;

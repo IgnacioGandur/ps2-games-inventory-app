@@ -15,6 +15,16 @@
         <%- include('../partials/navbar.ejs') %>
         <main class='games'>
             <aside class="sort-sidebar">
+                <% if(locals.validationErrors) { %>
+                    <p>Please make sure your search term complies with the following:</p>
+                    <ul class='validation-errors'>
+                        <% validationErrors.forEach((error) => { %>
+                            <li>
+                                <%= error.msg %>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } %>
                 <form class='search-form' action="/games/search" action='GET'>
                     <label for="searchTerm">
                         Search game title

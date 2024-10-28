@@ -30,10 +30,6 @@ const validateGame = [
         .withMessage('The "title" field should not be empty.')
         .exists()
         .withMessage('The "title" field is required.')
-        // .isAlphanumeric()
-        // .withMessage(
-        //     'The "title" field should contain only letters and numbers.',
-        // )
         .isLength({ min: 3 })
         .withMessage(
             'The "title" field length should be at least 3 characters long.',
