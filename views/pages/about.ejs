@@ -16,17 +16,26 @@
         <%- include('../partials/navbar.ejs') %>
         <main class='about-page'>
             <h1>
-                About this website
+                The tools I used to create this website.
             </h1>
-            <p>This website is a project made for The Odin Project.</p>
-            <h2>The tools I used to make this website</h2>
             <% if (locals.tools) { %>
                 <div class='tools-container'>
                     <% tools.forEach((tool) => { %>
                         <div class='tool'>
                             <div class='background'></div>
-                            <a class='tool-name' href='<%= tool.link %>' target='about_blank'>
-                                <%= tool.name %>
+                            <a class='content' href='<%= tool.link %>' target='about_blank'>
+                                <div class="images-container">
+                                    <img src="<%= tool.icon %>" alt="<%= tool.name %> icon">
+                                    <img class='effect' src="<%= tool.icon %>" alt="<%= tool.name %> icon">
+                                </div>
+                                <div class="separator first-separator"></div>
+                                <p class='name'>
+                                    <%= tool.name %>
+                                </p>
+                                <div class="separator"></div>
+                                <p class="description">
+                                    <%= tool.description %>
+                                </p>
                             </a>
                         </div>
                     <% }) %>

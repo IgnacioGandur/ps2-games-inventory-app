@@ -1529,9 +1529,10 @@ main {
 }
 
 .about-page > .tools-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    width: 100%;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     padding: 1em;
     list-style-type: none;
     gap: 1em;
@@ -1539,9 +1540,7 @@ main {
 
 .about-page > .tools-container > .tool {
     position: relative;
-    width: 120px;
-    height: 60px;
-    z-index: 20;
+    height: auto;
     overflow: hidden;
     border-radius: 5px;
 }
@@ -1549,11 +1548,12 @@ main {
 .about-page > .tools-container > .tool > .background {
     background-image: linear-gradient(
         45deg,
-        var(--color-blue-transparent),
-        var(--color-green-transparent),
-        var(--color-green-transparent),
-        var(--color-yellow-transparent),
-        var(--color-red-transparent),
+        #ffffff22,
+        #ffffff22,
+        #ffffff22,
+        #ffffff22,
+        #ffffff22,
+        #ffffff22,
         var(--color-blue),
         var(--color-green),
         var(--color-yellow),
@@ -1561,7 +1561,7 @@ main {
         var(--color-red),
         var(--color-red)
     );
-    background-size: 200%;
+    background-size: 300%;
     background-position: left bottom;
     width: 150%;
     height: 250%;
@@ -1573,15 +1573,17 @@ main {
     border-radius: 5px;
 }
 
-.about-page > .tools-container > .tool > .tool-name {
-    width: calc(100% - 5px);
-    height: calc(100% - 5px);
+.about-page > .tools-container > .tool > .content {
+    width: calc(100% - 3px);
+    height: calc(100% - 3px);
     background-color: black;
     padding: 1em;
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 1em;
     text-align: center;
     top: 50%;
     left: 50%;
@@ -1589,12 +1591,92 @@ main {
     z-index: 10;
     color: white;
     border-radius: 5px;
+    text-decoration: none;
+}
+
+/*TODO: Figure out what to do with the cards.*/
+
+.about-page > .tools-container > .tool > .content > .images-container {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.about-page > .tools-container > .tool > .content > .images-container > img {
+    width: 100%;
+}
+
+.about-page
+    > .tools-container
+    > .tool
+    > .content
+    > .images-container
+    > img.effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 400ms ease-in-out;
+}
+
+.about-page
+    > .tools-container
+    > .tool
+    > .content:hover
+    > .images-container
+    > img.effect {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+}
+
+.about-page > .tools-container > .tool > .content > .separator {
+    width: 100%;
+    height: 1px;
+    background-image: linear-gradient(
+        90deg,
+        transparent,
+        transparent,
+        transparent,
+        transparent,
+        transparent,
+        white,
+        transparent,
+        transparent,
+        transparent,
+        transparent,
+        transparent
+    );
+    background-size: 300%;
+    transition: all 3s ease-in-out;
+}
+
+.about-page > .tools-container > .tool > .content > .first-separator {
+    background-position: 0% 50%;
+}
+
+.about-page > .tools-container > .tool:hover > .content > .first-separator {
+    background-position: 100% 50%;
+    animation: moveShine 2s cubic-bezier(0, 1, 1, 0) infinite alternate;
+}
+
+.about-page > .tools-container > .tool > .content > .separator:last-of-type {
+    background-position: 100% 50%;
+}
+
+.about-page
+    > .tools-container
+    > .tool:hover
+    > .content
+    > .separator:last-of-type {
+    background-position: 0% 50%;
+    animation: moveShine 2s cubic-bezier(0, 1, 1, 0) infinite alternate-reverse;
 }
 
 .about-page > .tools-container > .tool:hover > .background,
 .about-page > .tools-container > .tool:focus > .background,
 .about-page > .tools-container > .tool:focus-visible > .background {
-    animation: animateBackground 2s ease-in-out infinite alternate;
+    animation: animateBackground 2s ease-in-out infinite;
     background-position: right top;
 }
 
@@ -1763,5 +1845,16 @@ main {
     }
     100% {
         transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes moveShine {
+    0%,
+    10% {
+        background-position: 0% 50%;
+    }
+    90%,
+    100% {
+        background-position: 100% 50%;
     }
 }
