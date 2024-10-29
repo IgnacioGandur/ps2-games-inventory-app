@@ -1455,6 +1455,36 @@ main {
     font-size: 1rem;
 }
 
+.genres-page > .separator,
+.publishers-page > .separator {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    height: 1px;
+    width: 100%;
+    background-color: #ffffff22;
+}
+
+.genres-page > .validation-errors,
+.publishers-page > .validation-errors {
+    border: 1px solid var(--color-red);
+    background-color: var(--color-red-transparent);
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    list-style-type: none;
+}
+
+.genres-page > .validation-errors > p,
+.publishers-page > .validation-errors > p {
+    font-weight: 900;
+}
+
+.genres-page > .validation-errors > li,
+.publishers-page > .validation-errors > li {
+    font-family: var(--font-main);
+}
+
 .genres-page > .add-genre-form,
 .publishers-page > .add-publisher-form {
     display: flex;
@@ -1467,6 +1497,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    font-family: var(--font-main);
+    font-weight: 900;
 }
 
 .genres-page > .add-genre-form > label:has(input:user-invalid)::before,
@@ -1481,6 +1513,16 @@ main {
 
 .publishers-page > .add-publisher-form > label:has(input:user-invalid)::before {
     content: "Invalid publisher name. Should be at least 3 characters long and unique.";
+}
+
+.genres-page > .add-genre-form > label:has(input:user-valid)::before,
+.publishers-page > .add-publisher-form > label:has(input:user-valid)::before {
+    background-color: var(--color-green-transparent);
+    border: 1px solid var(--color-green);
+    padding: 1em;
+
+    content: "Seems ok...";
+    font-style: italic;
 }
 
 .genres-page > .add-genre-form > label > input,
@@ -1530,7 +1572,11 @@ main {
 }
 
 .genres-page > .add-genre-form > .add-genre-button:hover,
-.publishers-page > .add-publisher-form > .add-publisher-button:hover {
+.publishers-page > .add-publisher-form > .add-publisher-button:hover,
+.genres-page > .add-genre-form > .add-genre-button:focus,
+.publishers-page > .add-publisher-form > .add-publisher-button:focus,
+.genres-page > .add-genre-form > .add-genre-button:focus-visible,
+.publishers-page > .add-publisher-form > .add-publisher-button:focus-visible {
     border: 1px solid var(--color-yellow);
     background-color: var(--color-yellow-transparent);
     cursor: pointer;

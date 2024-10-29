@@ -66,10 +66,21 @@
                     <% }) %>
                 </ul>
             <% } %>
+            <div class='separator'></div>
+            <% if(locals.validationErrors) { %>
+                <ul class="validation-errors">
+                <p>Please correct the following errors in your input:</p>
+                    <% validationErrors.forEach((error) => { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
             <form class='add-genre-form' action="/genres/addGenre" method='POST'>
                 <label for="genreName">
-                    Add a new genre tag
-                    <input type="text" name="genreName" id='genreName' minlength='3' placeholder='Action' required>
+                    Add a new genre
+                    <input type="text" name="genreName" id='genreName' minlength='3' placeholder='Action' value="<%= locals.userInput ? locals.userInput : '' %>" required>
                 </label>
                 <button class='add-genre-button' type='submit'>Add</button>
             </form>

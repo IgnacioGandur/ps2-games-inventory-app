@@ -66,10 +66,21 @@
                 <% }) %>
             </ul>
             <% } %>
+            <div class='separator'></div>
+            <% if (locals.validationErrors) { %>
+                <ul class='validation-errors'>
+                    <p>The provided input has the following problems:  </p>
+                    <% validationErrors.forEach((error) => {  %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
             <form class='add-publisher-form' action="/publishers/addPublisher" method='POST'>
                 <label for="publisherName">
-                    <p>Publisher Name</p>
-                    <input type="text" name='publisherName' id="publisherName" minlength='3' placeholder="Activision" required>
+                    <p>Add a new publisher</p>
+                    <input type="text" name='publisherName' id="publisherName" placeholder="Activision" minlength="3" value="<%= locals.userInput ?  locals.userInput : '' %>" required>
                 </label>
                 <button class='add-publisher-button' type='submit'>Add publisher</button>
             </form>
