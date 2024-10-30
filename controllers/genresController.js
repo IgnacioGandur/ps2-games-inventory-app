@@ -3,6 +3,7 @@ const {
     deleteGenre,
     addGenre,
     checkIfGenreExists,
+    updateGenreName,
 } = require("../db/queries");
 const { body, validationResult } = require("express-validator");
 
@@ -78,6 +79,7 @@ const addGenrePost = [
                 title: "Genre already exists",
                 genres: genres,
                 error: `The genre "${genreName}" already exists in the database.`,
+                userInput: genreName,
             });
         } else {
             await addGenre(genreName);
@@ -91,8 +93,53 @@ const addGenrePost = [
     },
 ];
 
+const validateNewGenreName = [
+    body("newGenreValue")
+        .trim()
+        .notEmpty()
+        .withMessage("The new genre name can't be empty."),
+];
+
+const updateGenrePost = [
+    validateNewGenreName,
+    async (req, res) => {
+        const validationErrors = validationResult(req);
+        const genres = await getAllGenres();
+        const { newGenreValue, editGenrePass } = req.body;
+        const { genreId } = req.params;
+
+        if (!validationErrors.isEmpty()) {
+            return res.status(400).render("pages/genres", {
+                title: "PS2 Games Genres | Genres",
+                genres: genres,
+            });
+        }
+
+        if (editGenrePass !== process.env.DELETION_PASSWORD) {
+            return res.status(401).render("pages/genres", {
+                title: "PS2 Games Vault | Genres",
+                genres: genres,
+                error: "The provided password is not correct. No genres were updated.",
+            });
+        }
+
+        if (editGenrePass === process.env.DELETION_PASSWORD) {
+            await updateGenreName(newGenreValue, genreId);
+            const genres = await getAllGenres();
+            return res.render("pages/genres", {
+                title: "PS2 Games Vault | Genres",
+                genres: genres,
+                successMessage: `The genre name was updated to "${newGenreValue}".`,
+            });
+        }
+
+        res.redirect("/genres");
+    },
+];
+
 module.exports = {
     genresGet,
     genreDeletePost,
     addGenrePost,
+    updateGenrePost,
 };

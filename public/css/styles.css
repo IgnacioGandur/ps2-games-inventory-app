@@ -1313,7 +1313,9 @@ main {
 /*Genres and publishers page*/
 
 .delete-genre-modal,
-.delete-publisher-modal {
+.delete-publisher-modal,
+.edit-genre-modal,
+.edit-publisher-modal {
     display: none;
     position: absolute;
     top: 50%;
@@ -1325,7 +1327,9 @@ main {
 }
 
 .delete-genre-modal.visible,
-.delete-publisher-modal.visible {
+.delete-publisher-modal.visible,
+.edit-genre-modal.visible,
+.edit-publisher-modal.visible {
     background-color: #00000055;
     display: flex;
     align-items: center;
@@ -1334,7 +1338,9 @@ main {
 }
 
 .delete-genre-modal > .delete-form,
-.delete-publisher-modal > .delete-form {
+.delete-publisher-modal > .delete-form,
+.edit-genre-modal > .edit-form,
+.edit-publisher-modal > .edit-form {
     background-color: black;
     border: 1px solid #ffffff22;
     border-radius: 5px;
@@ -1345,14 +1351,18 @@ main {
 }
 
 .delete-genre-modal > .delete-form > label,
-.delete-publisher-modal > .delete-form > label {
+.delete-publisher-modal > .delete-form > label,
+.edit-genre-modal > .edit-form > label,
+.edit-publisher-modal > .edit-form > label {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
 }
 
 .delete-genre-modal > .delete-form > label > input,
-.delete-publisher-modal > .delete-form > label > input {
+.delete-publisher-modal > .delete-form > label > input,
+.edit-genre-modal > .edit-form > label > input,
+.edit-publisher-modal > .edit-form > label > input {
     padding: 0.5em;
     background-color: black;
     color: white;
@@ -1362,14 +1372,18 @@ main {
 }
 
 .delete-genre-modal > .delete-form > .buttons-container,
-.delete-publisher-modal > .delete-form > .buttons-container {
+.delete-publisher-modal > .delete-form > .buttons-container,
+.edit-genre-modal > .edit-form > .buttons-container,
+.edit-publisher-modal > .edit-form > .buttons-container {
     width: 100%;
     display: flex;
     gap: 0.5em;
 }
 
 .delete-genre-modal > .delete-form > .buttons-container > button,
-.delete-publisher-modal > .delete-form > .buttons-container > button {
+.delete-publisher-modal > .delete-form > .buttons-container > button,
+.edit-genre-modal > .edit-form > .buttons-container > button,
+.edit-publisher-modal > .edit-form > .buttons-container > button {
     flex: 1;
     background-color: black;
     border: 1px solid white;

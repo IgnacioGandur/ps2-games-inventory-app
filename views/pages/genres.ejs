@@ -31,6 +31,26 @@
                 </div>
             </form>
         </div>
+        <div data-edit-genre-modal class='edit-genre-modal'>
+            <form data-edit-genre-form class='edit-form' action="#" method='POST'>
+                <label for="newGenreValue">
+                    New Genre value:
+                    <input data-new-genre-value type="text" name="newGenreValue" id="newGenreValue" >
+                </label>
+                <label for="editGenrePass">
+                    Enter the admin password to edit this genre
+                    <input data-edit-genre-pass type="password" name="editGenrePass" id="editGenrePass">
+                </label>
+                <div class='buttons-container'>
+                    <button data-edit-genre-button-cancel type='button' >
+                        Cancel
+                    </button>
+                    <button data-edit-genre-button type='submit' >
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
         <main class='genres-page'>
             <h1>
                 PS2 Games Genres List
@@ -53,7 +73,7 @@
             <% if (locals.genres ) { %>
                 <ul class='genres-container'>
                     <% genres.forEach((genre) => { %>
-                        <li class='genre'>
+                        <li onclick="setEditTargetGenre(<%= genre.id %>); setTargetGenreName('<%= genre.name %>');" data-genre-tag class='genre'>
                             <p>
                                 <%= genre.name %>
                             </p>

@@ -79,6 +79,7 @@ const addPublisherPost = [
                 title: "PS2 Game Publishers",
                 publishers: publishers,
                 error: `The record "${publisherName}" already exists in the publishers database.`,
+                userInput: publisherName,
             });
         } else {
             await addPublisher(publisherName);
