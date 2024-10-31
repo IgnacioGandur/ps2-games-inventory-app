@@ -44,5 +44,3 @@ app.use("*", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}/`);
 });
-
-// TODO: implement handling of genres and publishers deletion. How their deletion is going to affect records from the games table.

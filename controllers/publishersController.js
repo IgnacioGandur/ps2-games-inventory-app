@@ -3,6 +3,7 @@ const {
     deletePublisher,
     checkIfPublisherExists,
     addPublisher,
+    updatePublisherName,
 } = require("../db/queries");
 const { body, validationResult } = require("express-validator");
 
@@ -93,8 +94,62 @@ const addPublisherPost = [
     },
 ];
 
+const validateNewPublisherName = [
+    body("newPublisherValue")
+        .trim()
+        .notEmpty()
+        .withMessage("The new publisher name can't be empty."),
+];
+
+const publisherEditPost = [
+    validateNewPublisherName,
+    async (req, res) => {
+        const validationErrors = validationResult(req);
+        const publishers = await getAllPublishers();
+        const { newPublisherValue, editPublisherPass } = req.body;
+        const { publisherId } = req.params;
+
+        if (!validationErrors.isEmpty()) {
+            return res.status(400).render("pages/publishers", {
+                title: "PS2 Games Vault | Publishers",
+                publishers: publishers,
+                validationErrors: validationErrors.array(),
+            });
+        }
+
+        if (editPublisherPass !== process.env.DELETION_PASSWORD) {
+            return res.status(401).render("pages/publishers", {
+                title: "PS2 Games Vault | Publishers",
+                publishers: publishers,
+                error: "The provided password is not correct. No records were updated.",
+            });
+        }
+
+        if (editPublisherPass === process.env.DELETION_PASSWORD) {
+            const alreadyExists =
+                await checkIfPublisherExists(newPublisherValue);
+            if (alreadyExists) {
+                return res.render("pages/publishers", {
+                    title: "PS2 Games Vault | Publishers",
+                    publishers: publishers,
+                    error: `The new record name: ${newPublisherValue} already exists in the database. Update cancelled.`,
+                });
+            } else {
+                await updatePublisherName(newPublisherValue, publisherId);
+                const publishers = await getAllPublishers();
+                return res.render("pages/publishers", {
+                    title: "PS2 Games Vault | Publishers",
+                    publishers: publishers,
+                    successMessage: `The publisher name was updated to "${newPublisherValue}".`,
+                });
+            }
+        }
+    },
+];
+
 module.exports = {
     publishersGet,
     publishersDeletePost,
     addPublisherPost,
+    publisherEditPost,
 };

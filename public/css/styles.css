@@ -1673,8 +1673,6 @@ main {
     text-decoration: none;
 }
 
-/*TODO: Figure out what to do with the cards.*/
-
 .about-page > .tools-container > .tool > .content > .images-container {
     width: 25%;
     display: flex;

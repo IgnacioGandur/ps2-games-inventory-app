@@ -31,6 +31,26 @@
                 </div>
             </form>
         </div>
+        <div data-edit-publisher-modal class='edit-publisher-modal'>
+            <form data-edit-publisher-form class='edit-form' action="#" method='POST'>
+                <label for="newPublisherValue">
+                    New publisher value:
+                    <input data-new-publisher-value type="text" name="newPublisherValue" id="newPublisherValue" >
+                </label>
+                <label for="editPublisherPass">
+                    Enter the admin password to edit this publisher
+                    <input data-edit-publisher-pass type="password" name="editPublisherPass" id="editPublisherPass">
+                </label>
+                <div class='buttons-container'>
+                    <button data-edit-publisher-button-cancel type='button' >
+                        Cancel
+                    </button>
+                    <button data-edit-publisher-button type='submit' >
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
         <main class='publishers-page'>
             <h1>
                 PS2 Game Publishers List
@@ -53,7 +73,7 @@
             <% if(locals.publishers) { %>
             <ul class='publishers-container'>
                 <% publishers.forEach((publisher) => { %>
-                    <li class='publisher'>
+                    <li data-publisher-tag  class='publisher' onclick="setEditTargetPublisher(<%= publisher.id %>); setTargetPublisherName('<%= publisher.name %>');">
                         <p>
                             <%= publisher.name %>
                         </p>

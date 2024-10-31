@@ -328,6 +328,15 @@ async function updateGenreName(newGenreName, genreId) {
     );
 }
 
+async function updatePublisherName(newPublisherName, publisherId) {
+    await db.query(
+        `
+        UPDATE publishers SET name = $1 WHERE id = $2;
+    `,
+        [newPublisherName, publisherId],
+    );
+}
+
 module.exports = {
     getAllGames,
     getAllGenres,
@@ -356,4 +365,5 @@ module.exports = {
     checkIfGameExistsById,
     searchGameByTitle,
     updateGenreName,
+    updatePublisherName,
 };

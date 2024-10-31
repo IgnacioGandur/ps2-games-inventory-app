@@ -112,6 +112,7 @@ const updateGenrePost = [
             return res.status(400).render("pages/genres", {
                 title: "PS2 Games Genres | Genres",
                 genres: genres,
+                validationErrors: validationErrors.array(),
             });
         }
 
@@ -124,13 +125,23 @@ const updateGenrePost = [
         }
 
         if (editGenrePass === process.env.DELETION_PASSWORD) {
-            await updateGenreName(newGenreValue, genreId);
-            const genres = await getAllGenres();
-            return res.render("pages/genres", {
-                title: "PS2 Games Vault | Genres",
-                genres: genres,
-                successMessage: `The genre name was updated to "${newGenreValue}".`,
-            });
+            // Check if the updated value already exists in the database.
+            const alreadyExists = await checkIfGenreExists(newGenreValue);
+            if (alreadyExists) {
+                return res.render("pages/genres", {
+                    title: "PS2 Games Vault | Genres",
+                    genres: genres,
+                    error: `The new record name: "${newGenreValue}". Already exists in the database. Update cancelled.`,
+                });
+            } else {
+                await updateGenreName(newGenreValue, genreId);
+                const genres = await getAllGenres();
+                return res.render("pages/genres", {
+                    title: "PS2 Games Vault | Genres",
+                    genres: genres,
+                    successMessage: `The genre name was updated to "${newGenreValue}".`,
+                });
+            }
         }
 
         res.redirect("/genres");
