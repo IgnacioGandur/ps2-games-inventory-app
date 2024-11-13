@@ -5,7 +5,7 @@ const {
     checkIfGenreExists,
     updateGenreName,
 } = require("../db/queries");
-const { body, validationResult } = require("express-validator");
+const { body, param, validationResult } = require("express-validator");
 
 async function genresGet(req, res) {
     const genres = await getAllGenres();
@@ -16,37 +16,45 @@ async function genresGet(req, res) {
     });
 }
 
-async function genreDeletePost(req, res) {
-    function checkPassword(password) {
-        if (password === process.env.DELETION_PASSWORD) {
-            return true;
-        } else {
-            return false;
+const validateGenreDeletion = [
+    param("genreId")
+        .exists()
+        .withMessage("A genre id is required in the request's parameter.")
+        .isInt()
+        .withMessage(
+            "The genre id in the request's parameter must be an integer.",
+        ),
+    body("deleteGenrePass")
+        .trim()
+        .notEmpty()
+        .withMessage("The password field can't be empty.")
+        .custom(async (password) => {
+            if (password !== process.env.DELETION_PASSWORD) {
+                throw new Error(`The password: "${password}" is not correct.`);
+            }
+        }),
+];
+
+const genreDeletePost = [
+    validateGenreDeletion,
+    async (req, res) => {
+        const { genreId } = req.params;
+        const validationErrors = validationResult(req);
+        const genres = await getAllGenres();
+
+        if (!validationErrors.isEmpty()) {
+            return res.status(401).render("pages/genres", {
+                title: "PS2 Games Genres",
+                genres: genres,
+                validationErrors: validationErrors.array(),
+            });
         }
-    }
-    const { genreId } = req.params;
-    const { deleteGenrePass } = req.body;
 
-    const isValidPassword = checkPassword(deleteGenrePass);
-
-    if (isValidPassword) {
         await deleteGenre(genreId);
-        const genres = await getAllGenres();
-        return res.render("pages/genres", {
-            title: "PS2 Games Genres",
-            genres: genres,
-            successDeleteResponse: "Genre deleted successfully.",
-        });
-    } else {
-        const genres = await getAllGenres();
-        return res.render("pages/genres", {
-            title: "PS2 Genres Page",
-            genres: genres,
-            failedDeleteResponse:
-                "Invalid password. You can't delete a record unless you know the password.",
-        });
-    }
-}
+
+        return res.redirect("/genres");
+    },
+];
 
 const validateGenre = [
     body("genreName")
@@ -54,7 +62,16 @@ const validateGenre = [
         .notEmpty()
         .withMessage("The genre name can't be empty.")
         .isLength({ min: 3 })
-        .withMessage("The genre name must be at least 3 characters long."),
+        .withMessage("The genre name must be at least 3 characters long.")
+        .custom(async (genreName) => {
+            const alreadyExists = await checkIfGenreExists(genreName);
+
+            if (alreadyExists) {
+                throw new Error(
+                    `The genre: "${genreName}" already exists in the database. `,
+                );
+            }
+        }),
 ];
 
 const addGenrePost = [
@@ -63,7 +80,6 @@ const addGenrePost = [
         const validationErrors = validationResult(req);
         const genres = await getAllGenres();
         const { genreName } = req.body;
-        const alreadyExists = await checkIfGenreExists(genreName);
 
         if (!validationErrors.isEmpty()) {
             return res.status(400).render("pages/genres", {
@@ -74,38 +90,44 @@ const addGenrePost = [
             });
         }
 
-        if (alreadyExists) {
-            return res.render("pages/genres", {
-                title: "Genre already exists",
-                genres: genres,
-                error: `The genre "${genreName}" already exists in the database.`,
-                userInput: genreName,
-            });
-        } else {
-            await addGenre(genreName);
-            const genres = await getAllGenres();
-            return res.render("pages/genres", {
-                title: "PS2 Games Genres",
-                genres: genres,
-                successMessage: `The genre tag "${genreName}" was successfully inserted into the database.`,
-            });
-        }
+        await addGenre(genreName);
+        return res.redirect("/genres");
     },
 ];
 
-const validateNewGenreName = [
+const validateGenreUpdate = [
     body("newGenreValue")
         .trim()
         .notEmpty()
-        .withMessage("The new genre name can't be empty."),
+        .withMessage("The new genre name can't be empty.")
+        .isLength({ min: 3 })
+        .withMessage("The new genre name must be at least 3 characters long."),
+    body("editGenrePass")
+        .trim()
+        .notEmpty()
+        .withMessage("The password field can't be empty.")
+        .custom(async (password) => {
+            if (password !== process.env.DELETION_PASSWORD) {
+                throw new Error("The password is not correct.");
+            }
+        }),
+    body("newGenreValue").custom(async (newGenre) => {
+        const existsAlready = await checkIfGenreExists(newGenre);
+
+        if (existsAlready) {
+            throw new Error(
+                `The genre: "${newGenre}" already exists in the database. `,
+            );
+        }
+    }),
 ];
 
 const updateGenrePost = [
-    validateNewGenreName,
+    validateGenreUpdate,
     async (req, res) => {
         const validationErrors = validationResult(req);
         const genres = await getAllGenres();
-        const { newGenreValue, editGenrePass } = req.body;
+        const { newGenreValue } = req.body;
         const { genreId } = req.params;
 
         if (!validationErrors.isEmpty()) {
@@ -116,35 +138,9 @@ const updateGenrePost = [
             });
         }
 
-        if (editGenrePass !== process.env.DELETION_PASSWORD) {
-            return res.status(401).render("pages/genres", {
-                title: "PS2 Games Vault | Genres",
-                genres: genres,
-                error: "The provided password is not correct. No genres were updated.",
-            });
-        }
+        await updateGenreName(newGenreValue, genreId);
 
-        if (editGenrePass === process.env.DELETION_PASSWORD) {
-            // Check if the updated value already exists in the database.
-            const alreadyExists = await checkIfGenreExists(newGenreValue);
-            if (alreadyExists) {
-                return res.render("pages/genres", {
-                    title: "PS2 Games Vault | Genres",
-                    genres: genres,
-                    error: `The new record name: "${newGenreValue}". Already exists in the database. Update cancelled.`,
-                });
-            } else {
-                await updateGenreName(newGenreValue, genreId);
-                const genres = await getAllGenres();
-                return res.render("pages/genres", {
-                    title: "PS2 Games Vault | Genres",
-                    genres: genres,
-                    successMessage: `The genre name was updated to "${newGenreValue}".`,
-                });
-            }
-        }
-
-        res.redirect("/genres");
+        return res.redirect("/genres");
     },
 ];
 

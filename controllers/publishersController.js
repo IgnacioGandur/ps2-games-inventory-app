@@ -5,7 +5,7 @@ const {
     addPublisher,
     updatePublisherName,
 } = require("../db/queries");
-const { body, validationResult } = require("express-validator");
+const { body, param, validationResult } = require("express-validator");
 
 async function publishersGet(req, res) {
     const publishers = await getAllPublishers();
@@ -15,39 +15,41 @@ async function publishersGet(req, res) {
     });
 }
 
-async function publishersDeletePost(req, res) {
-    function checkPassword(password) {
-        if (password === process.env.DELETION_PASSWORD) {
-            return true;
-        } else {
-            return false;
+const validatePublisherDeletion = [
+    body("deletePublisherPass")
+        .trim()
+        .notEmpty()
+        .withMessage("The password field is empty.")
+        .custom(async (password) => {
+            if (password !== process.env.DELETION_PASSWORD) {
+                throw new Error(`The password: "${password}" is not correct. `);
+            }
+        }),
+];
+
+const publishersDeletePost = [
+    validatePublisherDeletion,
+    async (req, res) => {
+        const { publisherId } = req.params;
+        const publishers = await getAllPublishers();
+
+        const validationErrors = validationResult(req);
+
+        if (!validationErrors.isEmpty()) {
+            return res.status(401).render("pages/publishers", {
+                title: "PS2 Games Publishers",
+                publishers: publishers,
+                validationErrors: validationErrors.array(),
+            });
         }
-    }
-    const { publisherId } = req.params;
-    const { deletePublisherPass } = req.body;
 
-    const isValidPassword = checkPassword(deletePublisherPass);
-
-    if (isValidPassword) {
         await deletePublisher(publisherId);
-        const publishers = await getAllPublishers();
-        return res.render("pages/publishers", {
-            title: "PS2 Game Publishers",
-            publishers: publishers,
-            successDeleteResponse: "Publisher deleted successfully.",
-        });
-    } else {
-        const publishers = await getAllPublishers();
-        return res.render("pages/publishers", {
-            title: "PS2 Game Publishers",
-            publishers: publishers,
-            failedDeleteResponse:
-                "Invalid password. You can't delete a record unless you know the password.",
-        });
-    }
-}
 
-const validatePublisher = [
+        return res.redirect("/publishers");
+    },
+];
+
+const validateNewPublisher = [
     body("publisherName")
         .trim()
         .notEmpty()
@@ -55,15 +57,22 @@ const validatePublisher = [
         .isLength({ min: 3 })
         .withMessage(
             "The publisher field name must be at least 3 characters long.",
-        ),
+        )
+        .custom(async (publisherName) => {
+            const alreadyExists = await checkIfPublisherExists(publisherName);
+            if (alreadyExists) {
+                throw new Error(
+                    `The publisher: "${publisherName}" already exists in the database.`,
+                );
+            }
+        }),
 ];
 
 const addPublisherPost = [
-    validatePublisher,
+    validateNewPublisher,
     async (req, res) => {
         const { publisherName } = req.body;
         const publishers = await getAllPublishers();
-        const result = await checkIfPublisherExists(publisherName);
         const validationErrors = validationResult(req);
 
         if (!validationErrors.isEmpty()) {
@@ -75,38 +84,50 @@ const addPublisherPost = [
             });
         }
 
-        if (result) {
-            return res.render("pages/publishers", {
-                title: "PS2 Game Publishers",
-                publishers: publishers,
-                error: `The record "${publisherName}" already exists in the publishers database.`,
-                userInput: publisherName,
-            });
-        } else {
-            await addPublisher(publisherName);
-            const publishers = await getAllPublishers();
-            return res.render("pages/publishers", {
-                title: "PS2 Games Publishers",
-                publishers: publishers,
-                successMessage: `The record "${publisherName}" was added to the database successfully.`,
-            });
-        }
+        await addPublisher(publisherName);
+
+        return res.redirect("/publishers");
     },
 ];
 
-const validateNewPublisherName = [
+const validatePublisherNameUpdate = [
+    param("publisherId")
+        .isInt()
+        .withMessage(
+            "The publisher id in the URL parameter must be an integer.",
+        ),
     body("newPublisherValue")
         .trim()
         .notEmpty()
-        .withMessage("The new publisher name can't be empty."),
+        .withMessage("The new publisher name can't be empty.")
+        .custom(async (updatedPublisherName) => {
+            const alreadyExists =
+                await checkIfPublisherExists(updatedPublisherName);
+            if (alreadyExists) {
+                throw new Error(
+                    `The publisher name: "${updatedPublisherName}" already exists in the database.`,
+                );
+            }
+        }),
+    body("editPublisherPass")
+        .trim()
+        .notEmpty()
+        .withMessage("The password field is empty.")
+        .custom(async (password) => {
+            if (password !== process.env.DELETION_PASSWORD) {
+                throw new Error(
+                    `The provided password: "${password}" is not correct. `,
+                );
+            }
+        }),
 ];
 
 const publisherEditPost = [
-    validateNewPublisherName,
+    validatePublisherNameUpdate,
     async (req, res) => {
         const validationErrors = validationResult(req);
         const publishers = await getAllPublishers();
-        const { newPublisherValue, editPublisherPass } = req.body;
+        const { newPublisherValue } = req.body;
         const { publisherId } = req.params;
 
         if (!validationErrors.isEmpty()) {
@@ -117,33 +138,9 @@ const publisherEditPost = [
             });
         }
 
-        if (editPublisherPass !== process.env.DELETION_PASSWORD) {
-            return res.status(401).render("pages/publishers", {
-                title: "PS2 Games Vault | Publishers",
-                publishers: publishers,
-                error: "The provided password is not correct. No records were updated.",
-            });
-        }
+        await updatePublisherName(newPublisherValue, publisherId);
 
-        if (editPublisherPass === process.env.DELETION_PASSWORD) {
-            const alreadyExists =
-                await checkIfPublisherExists(newPublisherValue);
-            if (alreadyExists) {
-                return res.render("pages/publishers", {
-                    title: "PS2 Games Vault | Publishers",
-                    publishers: publishers,
-                    error: `The new record name: ${newPublisherValue} already exists in the database. Update cancelled.`,
-                });
-            } else {
-                await updatePublisherName(newPublisherValue, publisherId);
-                const publishers = await getAllPublishers();
-                return res.render("pages/publishers", {
-                    title: "PS2 Games Vault | Publishers",
-                    publishers: publishers,
-                    successMessage: `The publisher name was updated to "${newPublisherValue}".`,
-                });
-            }
-        }
+        return res.redirect("/publishers");
     },
 ];
 

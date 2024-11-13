@@ -55,21 +55,6 @@
             <h1>
                 PS2 Game Publishers List
             </h1>
-            <% if(locals.successDeleteResponse || locals.failedDeleteResponse) { %>
-                <p class='<%= locals.successDeleteResponse ? "success-message" : "error" %>'>
-                    <%= locals.successDeleteResponse ? successDeleteResponse : failedDeleteResponse %>
-                </p>
-            <% } %>
-            <% if (locals.error) { %>
-                <p class='error'>
-                    <%= error %>
-                </p>
-            <% } %>
-            <% if (locals.successMessage) { %>
-                <p class='success-message'>
-                    <%= successMessage %>
-                </p>
-            <% } %>
             <% if(locals.publishers) { %>
             <ul class='publishers-container'>
                 <% publishers.forEach((publisher) => { %>

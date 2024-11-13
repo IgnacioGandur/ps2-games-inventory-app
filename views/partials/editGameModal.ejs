@@ -1,0 +1,88 @@
+<div data-edit-game-details-modal class="edit-game-details-modal">
+    <form data-edit-game-details-form class="edit-game-details" action="/games/update/<%= gameId %>" method="POST">
+        <label for="updatedGameTitle">
+            Edit this game's title:
+            <input type="text" name="updatedGameTitle"  id="updatedGameTitle" value="<%= gameData.title %>" required/>
+        </label>
+        <label for="updatedGameCoverUrl">
+            Edit this game's url cover:
+            <input type="url" name="updatedGameCoverUrl" id="updatedGameCoverUrl" value="<%= gameCover.cover %>" required/>
+        </label>
+        <label for="updatedGameDescription">
+            Edit this game's description:
+            <input type="text" name="updatedGameDescription"  id="updatedGameDescription" value="<%= gameData.description %>" required/>
+        </label>
+        <label for="updatedGameReleaseDate">
+            Edit this game's release date:
+            <input type="datetime-local" name="updatedGameReleaseDate"  id="updatedGameReleaseDate" required/>
+        </label>
+        <% if(locals.gameGenres) { %>
+            <div >
+                <p>
+                    Current genres for this title (select to delete them)
+                </p>
+                <div style="width: 100%; display:flex; flex-wrap:wrap; gap: 1em;">
+                    <% gameGenres.forEach((genre) => { %>
+                        <div class='option'>
+                            <input data-genre-box type="checkbox" name='targetGamesGenres[]' id='current-<%= genre.genre %>' value='{"gg_id": "<%= genre.gg_id %>", "id": "<%= genre.id %>"}'/>
+                            <label for="current-<%= genre.genre %>">
+                                <%= genre.genre %>
+                            </label>
+                        </div> 
+                    <% }) %>
+                </div>
+            </div>
+        <% } %>
+        <% if(locals.genres) { %>
+            <div>
+                <p>
+                    Add new genres to this game (select to add)
+                </p>
+                <div style="width: 100%; display:flex; flex-wrap:wrap; gap: 1em;">
+                    <% genres.forEach((genre) => { %>
+                        <div class='option'>
+                            <input data-genre-box type="checkbox" name='updatedGameGenres[]' id='updated-<%= genre.name %>' value='<%= genre.id %>'>
+                            <label for="updated-<%= genre.name %>">
+                                <%= genre.name %>
+                            </label>
+                        </div> 
+                    <% }) %>
+                </div>
+            </div>
+        <% } %>
+        <p>
+            The current publisher for this game is
+            <% if (locals.gamePublisher) { %>
+                <p>
+                    <%= gamePublisher.publisher %>
+                </p>
+            <% } %>
+        </p>
+        <% if(locals.publishers) { %>
+            <p>
+                Change the publisher for this game
+            </p>
+            <div class='options-container' style="width: 100%; display:flex; flex-wrap:wrap; gap: 1em; ">
+                <% publishers.forEach((publisher,index) => { %>
+                    <div class='option'>
+                        <input type='radio' name='updatedPublisherId' id='<%= publisher.name %>' value="<%= publisher.id %>"  <%= publisher.name === gamePublisher.publisher ? "checked" : '' %>/>
+                        <label for="<%= publisher.name %>">
+                            <%= publisher.name %>
+                        </label>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+        <label for="adminPass">
+            Enter the admin password to confirm the edit:
+            <input type="password" name="adminPass"  id="adminPass" required/>
+        </label>
+        <button data-hide-edit-modal type='button'>
+            Cancel edit 
+        </button>
+        <button type="submit">
+            Edit game info
+        </button>
+
+    </form>
+</div>

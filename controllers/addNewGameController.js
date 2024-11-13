@@ -27,37 +27,103 @@ const validateGame = [
     body("title")
         .trim()
         .notEmpty()
-        .withMessage('The "title" field should not be empty.')
-        .exists()
-        .withMessage('The "title" field is required.')
+        .withMessage("The title field can't be empty.")
         .isLength({ min: 3 })
-        .withMessage(
-            'The "title" field length should be at least 3 characters long.',
-        ),
+        .withMessage("The title field should be at least 3 characters long.")
+        .toLowerCase()
+        .custom(async (title) => {
+            const alreadyExists = await checkIfGameExists(title);
+
+            if (alreadyExists) {
+                throw new Error(
+                    `The game: "${title}" already exists in the database.`,
+                );
+            }
+        }),
     body("description")
         .trim()
         .notEmpty()
-        .withMessage('The "description" field can\'t be empty.')
-        .exists()
-        .withMessage('The "description" field is required.')
+        .withMessage("The description field can't be empty.")
         .isLength({ min: 5 })
         .withMessage(
-            'The "description" field must be at least 5 characters long.',
-        ),
+            "The description field must be at least 5 characters long.",
+        )
+        .toLowerCase()
+        .custom(async (description) => {
+            const alreadyExists =
+                await checkIfDescriptionAlreadyExists(description);
+            if (alreadyExists) {
+                throw new Error(
+                    "Another game already has the same descrpition. Use a different one.",
+                );
+            }
+        }),
     body("release_date")
         .trim()
         .notEmpty()
         .withMessage('The "release date" field should not be empty.')
         .isISO8601()
         .withMessage(
-            'The "release date" field should be a valid date format with the pattern: "YYYY-MM-DD".',
+            "The release date field should be a valid date format with the pattern: 'YYYY-MM-DD'.",
         ),
     body("coverUrl")
         .trim()
         .notEmpty()
-        .withMessage('The "coverUrl" field can\'t be empty. ')
+        .withMessage("The cover URL field can't be empty. ")
         .isURL()
-        .withMessage('The "cover URL" field must be a valid URL. '),
+        .withMessage("The cover URL field must be a valid URL. ")
+        .custom(async (coverUrl) => {
+            const alreadyExists = await checkIfCoverAlreadyExists(coverUrl);
+
+            if (alreadyExists) {
+                throw new Error(
+                    "Another game already has the same cover URL. Use another one.",
+                );
+            }
+        }),
+    body("genres")
+        .custom(async (genres) => {
+            if (genres === undefined) {
+                throw new Error("You must select at least one genre.");
+            }
+        })
+        .custom(async (genres) => {
+            if (typeof genres === "string") {
+                throw new Error(
+                    `Invalid genre id. Expected: Integer. Received: "${genres}".`,
+                );
+            }
+        })
+        // Validator to check if NaN values are passed as genres ids.
+        .custom(async (genres) => {
+            if (Array.isArray(genres)) {
+                const listOfInvalidValues = [];
+                let isInvalid = false;
+
+                for (let i = 0; i < genres.length; i++) {
+                    if (isNaN(genres[i])) {
+                        listOfInvalidValues.push(genres[i]);
+                        isInvalid = true;
+                    }
+                }
+
+                const arrayOfErrors = listOfInvalidValues.join(", ");
+
+                if (isInvalid) {
+                    throw new Error(
+                        `Invalid genres ids. Expected: Integer. Received: ${arrayOfErrors}.`,
+                    );
+                }
+            }
+        }),
+    body("publisherId")
+        .trim()
+        .notEmpty()
+        .withMessage("The publisher id field can't be empty.")
+        .isInt()
+        .withMessage(
+            "Invalid publisher id. The publisher id must be an integer.",
+        ),
 ];
 
 const addNewGamePost = [
@@ -71,16 +137,16 @@ const addNewGamePost = [
             genres,
             coverUrl,
         } = req.body;
+        const dbGenres = await getAllGenres();
+        const publishers = await getAllPublishers();
 
         const validationErrors = validationResult(req);
 
         if (!validationErrors.isEmpty()) {
-            const genres = await getAllGenres();
-            const publishers = await getAllPublishers();
             return res.status(400).render("pages/addNewGame", {
                 title: "Add New Game",
                 validationErrors: validationErrors.array(),
-                genres: genres,
+                genres: dbGenres,
                 publishers: publishers,
                 inputValues: {
                     title,
@@ -91,69 +157,24 @@ const addNewGamePost = [
             });
         }
 
-        const gameAlreadyExists = await checkIfGameExists(title);
-        const coverAlreadyExists = await checkIfCoverAlreadyExists(coverUrl);
-        const descriptionAlreadyExists =
-            await checkIfDescriptionAlreadyExists(description);
+        const gameId = await insertGame(
+            title,
+            description,
+            release_date,
+            publisherId,
+        );
 
-        const dbErrors = [];
+        await insertIntoCovers(gameId, coverUrl);
 
-        if (gameAlreadyExists) {
-            dbErrors.push(
-                `The record "${title}" already exists in the database.`,
-            );
-        }
-
-        if (coverAlreadyExists) {
-            dbErrors.push(
-                `The game cover url is already being used in another record.`,
-            );
-        }
-
-        if (descriptionAlreadyExists) {
-            dbErrors.push(`
-            Another game already has this description.
-        `);
-        }
-
-        if (
-            gameAlreadyExists ||
-            coverAlreadyExists ||
-            descriptionAlreadyExists
-        ) {
-            const genres = await getAllGenres();
-            const publishers = await getAllPublishers();
-            res.render("pages/addNewGame", {
-                title: "Add a new game",
-                genres: genres,
-                publishers: publishers,
-                errors: dbErrors,
-                inputValues: {
-                    title: title,
-                    description: description,
-                    coverUrl: coverUrl,
-                    release_date: release_date,
-                },
-            });
+        // If only one genres is selected create an array, add the genres and pass it to the db function.
+        if (typeof genres === "string") {
+            const gameGenres = [];
+            gameGenres.push(genres);
+            await insertIntoGames_genres(gameId, gameGenres);
         } else {
-            const gameId = await insertGame(
-                title,
-                description,
-                release_date,
-                publisherId,
-            );
-
-            await insertIntoCovers(gameId, coverUrl);
-
-            if (typeof genres === "string") {
-                const gameGenres = [];
-                gameGenres.push(genres);
-                await insertIntoGames_genres(gameId, gameGenres);
-            } else {
-                await insertIntoGames_genres(gameId, genres);
-            }
-            res.redirect("/games");
+            await insertIntoGames_genres(gameId, genres);
         }
+        return res.redirect("/games");
     },
 ];
 

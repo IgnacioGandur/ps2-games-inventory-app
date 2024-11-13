@@ -1,15 +1,15 @@
 <form action='/addNewGame' method='POST' id='add-game-form' >
     <label for='title'>
         Title:
-        <input class='title-input' type='text' name='title' id='title'  placeholder='Black' minlength='5' value="<%= locals.inputValues.title ? locals.inputValues.title : '' %>" required>
+        <input class='title-input' type='text' name='title' id='title'  placeholder='Black' minlength='5' value="<%= locals.inputValues.title ? locals.inputValues.title : '' %>"/>
     </label>
     <label for='description'>
         Description:
-        <input class='description-input' type='text' name='description' id='description' minlength='5' placeholder='First person shooter develop by Criterion Games.' value="<%= locals.inputValues.description ? locals.inputValues.description : '' %>" required>
+        <input class='description-input' type='text' name='description' id='description' minlength='5' placeholder='First person shooter develop by Criterion Games.' value="<%= locals.inputValues.description ? locals.inputValues.description : '' %>">
     </label>
     <label for='release_date'>
         Release date:
-        <input class='release-date-input' type='date' name='release_date' id='release_date' placeholder='2004-01-01'  value="<%= locals.inputValues.release_date ? locals.inputValues.release_date : '' %>" required>
+        <input class='release-date-input' type='date' name='release_date' id='release_date' placeholder='2004-01-01'  value="<%= locals.inputValues.release_date ? locals.inputValues.release_date : '' %>">
     </label>
     <label for='coverUrl'>
         <div class='text'>
@@ -29,7 +29,7 @@
                 </p>
             </div>
         </div>
-        <input class='coverUrl-input' type='url' name='coverUrl' id='coverUrl' placeholder='https://cdn.mobygames.com/b8c2cd76-abaf-11ed-aecf-02420a000198.webp' value="<%= locals.inputValues.coverUrl ? locals.inputValues.coverUrl : '' %>" required>
+        <input class='coverUrl-input' type='url' name='coverUrl' id='coverUrl' placeholder='https://cdn.mobygames.com/b8c2cd76-abaf-11ed-aecf-02420a000198.webp' value="<%= locals.inputValues.coverUrl ? locals.inputValues.coverUrl : '' %>">
     </label>
     <div class='divider'>
     </div>
@@ -53,7 +53,7 @@
         <div class='options-container'>
             <% publishers.forEach((publisher,index) => { %>
                 <div class='option'>
-                    <input type='radio' name='publisherId' id='<%= publisher.name %>' value='<%= publisher.id %>' <%= index === 0 ? '' : null %> required>
+                    <input type='radio' name='publisherId' id='<%= publisher.name %>' value='<%= publisher.id %>' <%= index === 0 ? '' : null %>>
                     <label for='<%= publisher.name %>'>
                         <%= publisher.name %>
                     </label>

@@ -60,7 +60,7 @@ async function insertIntoCovers(gameId, coverUrl) {
 async function getGameGenres(gameId) {
     const { rows } = await db.query(
         `
-        SELECT genres.name AS genre FROM genres 
+        SELECT games_genres.id AS gg_id, genres.id, genres.name AS genre FROM genres 
         INNER JOIN games_genres ON genres.id = games_genres.genre_id
         INNER JOIN games ON games_genres.game_id = games.id 
         WHERE games.id = $1;
@@ -138,7 +138,7 @@ async function deletePublisher(publisherId) {
 async function checkIfGameExists(title) {
     const { rows } = await db.query(
         `
-        SELECT * FROM games WHERE title ~* $1;
+        SELECT * FROM games WHERE title = $1;
     `,
         [title],
     );
@@ -154,7 +154,7 @@ async function checkIfGameExists(title) {
 async function checkIfCoverAlreadyExists(coverUrl) {
     const { rows } = await db.query(
         `
-        SELECT * FROM covers WHERE url ~* $1;
+        SELECT * FROM covers WHERE url = $1;
     `,
         [coverUrl],
     );
@@ -169,7 +169,7 @@ async function checkIfCoverAlreadyExists(coverUrl) {
 async function checkIfDescriptionAlreadyExists(description) {
     const { rows } = await db.query(
         `
-        SELECT * FROM games WHERE description ~* $1;
+        SELECT * FROM games WHERE description = $1;
     `,
         [description],
     );
@@ -244,7 +244,7 @@ async function getPublishersNames(publishersIds) {
 async function checkIfGenreExists(genreName) {
     const { rows } = await db.query(
         `
-        SELECT * FROM genres WHERE name ~* $1;
+        SELECT * FROM genres WHERE name = $1;
     `,
         [genreName],
     );
@@ -268,7 +268,7 @@ async function addGenre(genreName) {
 async function checkIfPublisherExists(publisherName) {
     const { rows } = await db.query(
         `
-        SELECT * FROM publishers WHERE publishers.name ~* $1;
+        SELECT * FROM publishers WHERE publishers.name = $1;
     `,
         [publisherName],
     );
@@ -337,6 +337,39 @@ async function updatePublisherName(newPublisherName, publisherId) {
     );
 }
 
+async function updateGame(
+    newTitle,
+    newDescription,
+    newReleaseDate,
+    newPublisherId,
+    gameId,
+) {
+    await db.query(
+        `
+        UPDATE games SET title = $1, description = $2, release_date = $3, publisher_id = $4 WHERE id = $5;
+    `,
+        [newTitle, newDescription, newReleaseDate, newPublisherId, gameId],
+    );
+}
+
+async function removeGamesGenres(game_genreIdsArray) {
+    await db.query(
+        `
+        DELETE FROM games_genres WHERE id = ANY ($1);
+    `,
+        [game_genreIdsArray],
+    );
+}
+
+async function updateGameCover(gameId, newCoverUrl) {
+    await db.query(
+        `
+        UPDATE covers SET url = $1 WHERE game_id = $2;
+    `,
+        [newCoverUrl, gameId],
+    );
+}
+
 module.exports = {
     getAllGames,
     getAllGenres,
@@ -366,4 +399,7 @@ module.exports = {
     searchGameByTitle,
     updateGenreName,
     updatePublisherName,
+    updateGame,
+    removeGamesGenres,
+    updateGameCover,
 };
