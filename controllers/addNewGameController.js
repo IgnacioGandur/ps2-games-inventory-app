@@ -88,32 +88,25 @@ const validateGame = [
             }
         })
         .custom(async (genres) => {
+            const arrayOfInvalidIds = [];
+
+            for (let i = 0; i < genres.length; i++) {
+                if (isNaN(Number(genres[i]))) {
+                    arrayOfInvalidIds.push(genres[i]);
+                }
+            }
+
+            if (arrayOfInvalidIds.length > 0) {
+                throw new Error(
+                    `At least one of the genre ids is invalid. Expect: Integer. Invalid value/s: "${arrayOfInvalidIds.join(", ")}".`,
+                );
+            }
+        })
+        .custom(async (genres) => {
             if (typeof genres === "string") {
                 throw new Error(
                     `Invalid genre id. Expected: Integer. Received: "${genres}".`,
                 );
-            }
-        })
-        // Validator to check if NaN values are passed as genres ids.
-        .custom(async (genres) => {
-            if (Array.isArray(genres)) {
-                const listOfInvalidValues = [];
-                let isInvalid = false;
-
-                for (let i = 0; i < genres.length; i++) {
-                    if (isNaN(genres[i])) {
-                        listOfInvalidValues.push(genres[i]);
-                        isInvalid = true;
-                    }
-                }
-
-                const arrayOfErrors = listOfInvalidValues.join(", ");
-
-                if (isInvalid) {
-                    throw new Error(
-                        `Invalid genres ids. Expected: Integer. Received: ${arrayOfErrors}.`,
-                    );
-                }
             }
         }),
     body("publisherId")
@@ -137,6 +130,7 @@ const addNewGamePost = [
             genres,
             coverUrl,
         } = req.body;
+
         const dbGenres = await getAllGenres();
         const publishers = await getAllPublishers();
 

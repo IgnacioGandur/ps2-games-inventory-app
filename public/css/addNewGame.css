@@ -1,0 +1,184 @@
+.add-game-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-game-form > .errors {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em 2em;
+    background-color: var(--color-red-transparent);
+    border: 1px solid var(--color-red);
+    gap: 0.5em;
+}
+
+.add-game-form > .errors > * {
+    font-family: var(--font-main);
+}
+
+.add-game-form > .errors > p {
+    font-size: 1.25rem;
+    text-align: center;
+    font-weight: 900;
+}
+
+.add-game-form > .errors > p:last-of-type {
+    font-size: 1rem;
+}
+
+.add-game-form > .errors > p > a {
+    color: white;
+}
+
+.add-game-form > form {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    font-family: var(--font-main);
+}
+
+.add-game-form > form > h4 {
+    position: relative;
+}
+
+.add-game-form > form > .divider {
+    height: 1px;
+    width: 100%;
+    background-color: #ffffff22;
+}
+
+.add-game-form > form > label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    position: relative;
+}
+
+.add-game-form > form > label > .text,
+.add-game-form > form > label > .text > .info-bubble {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.add-game-form > form > label > .text > .info-bubble > span {
+    font-size: 1rem;
+}
+
+.add-game-form > form > label > .text > .info-bubble > p {
+    border: 1px solid #ffffff22;
+    padding: 1em;
+    transform: scale(0);
+    background-color: black;
+    position: absolute;
+    z-index: 5;
+    opacity: 0;
+    transform-origin: left center;
+    transition: all 300ms ease-in-out;
+}
+.add-game-form > form > label > .text > .info-bubble > span:hover + p,
+.add-game-form > form > label > .text > .info-bubble > p:hover {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.add-game-form > form > label:has(input:user-invalid)::before,
+.add-game-form > form > label:has(input.genre-checkbox:user-invalid)::before {
+    width: 100%;
+    text-align: center;
+    content: "Invalid input";
+    position: absolute;
+    left: 50%;
+    font-style: italic;
+    transform: translateX(-50%);
+    color: var(--color-red);
+    font-family: var(--font-main);
+}
+
+.add-game-form > form > label:has(input.title-input:user-invalid)::before {
+    content: "Invalid input. Title field is required and should be at least 5 characters long.";
+}
+
+.add-game-form
+    > form
+    > label:has(input.description-input:user-invalid)::before {
+    content: "Invalid input. Description field is required and should be at least 5 characters long.";
+}
+
+.add-game-form
+    > form
+    > label:has(input.release-date-input:user-invalid)::before {
+    content: "Invalid input. Release date field is required and should be in the following format: 'YYYY-MM-DD'.";
+}
+
+.add-game-form > form > label:has(input.coverUrl-input:user-invalid)::before {
+    content: "Invalid input. Cover URL input is required and should be a valid URL.";
+}
+
+.add-game-form > form > label:has(input.genre-checkbox:user-invalid)::before {
+    content: "Select at least one genre to create a game entry.";
+}
+
+.add-game-form > form > label:has(input:user-valid)::before,
+.add-game-form > form > label:has(input:valid)::before {
+    content: "Nice!";
+    position: absolute;
+    left: 50%;
+    font-style: italic;
+    transform: translateX(-50%);
+    color: var(--color-green);
+    font-family: var(--font-main);
+}
+
+.add-game-form > form > label::after,
+.add-game-form > form > h4::after {
+    content: "Required";
+    font-style: italic;
+    font-size: 0.75rem;
+    font-weight: 200;
+    position: absolute;
+    right: 2px;
+    top: 5px;
+    z-index: 10;
+}
+
+.add-game-form > form > label > input {
+    background-color: black;
+    color: white;
+    padding: 0.75em;
+    border: 1px solid #ffffff22;
+    border-radius: 5px;
+    position: relative;
+    transition: all 200ms ease-in-out;
+    text-align: start;
+}
+
+.add-game-form > form > label > input:hover {
+    border: 1px solid var(--color-yellow);
+}
+
+.add-game-form > form > label > input:focus-visible {
+    background-color: var(--color-blue-transparent);
+    border: 1px solid var(--color-blue);
+}
+
+.add-game-form > form > label > input:user-invalid {
+    border: 1px solid var(--color-red);
+    background-color: var(--color-red-transparent);
+}
+
+.add-game-form > form > label > input:user-valid,
+.add-game-form > form > label > input:valid {
+    border: 1px solid var(--color-green);
+    background-color: var(--color-green-transparent);
+}
+
+.add-game-form > form > .options-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1em;
+}

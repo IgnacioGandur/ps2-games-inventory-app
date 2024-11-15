@@ -77,7 +77,7 @@ async function gamePageGet(req, res) {
     if (isNaN(gameId)) {
         return res.status(404).render("pages/404", {
             title: "Invalid search parameter.",
-            error: `The game id you passed in the url is not right. Expected: Integer. Received: ${gameId}.`,
+            error: `The game id you passed in the url is not right. Expected: Integer. Received: "${gameId}".`,
         });
     }
 
@@ -418,7 +418,6 @@ const validateGameUpdate = [
         .notEmpty()
         .withMessage("The password field can't be empty.")
         .custom(async (password, { req }) => {
-            console.log(req.body);
             if (password !== process.env.DELETION_PASSWORD) {
                 throw new Error(
                     `The provided password: "${password}" is not correct.`,
@@ -517,29 +516,32 @@ const updateGamePost = [
             await updateGameCover(gameId, updatedGameCoverUrl);
             await insertIntoGames_genres(gameId, updatedGameGenres);
 
-            // Fetch the database after the update.
-            const gameData = await getGameById(gameId);
-            const gameGenres = await getGameGenres(gameId);
-            const gameCover = await getGameCover(gameId);
-            const gamePublisher = await getGamePublisher(gameId);
-            const genres = await getAllGenres();
-            const publishers = await getAllPublishers();
+            // TODO: Decide later if to keep the successful update message or just re-direct the user after the editing...
 
-            return res.render("pages/gamePage", {
-                title: gameData[0].title,
-                gameId: gameId,
-                gameData: gameData[0],
-                gameGenres: gameGenres,
-                gameCover: gameCover[0],
-                gamePublisher: gamePublisher[0],
-                gameReleaseDate: format(
-                    gameData[0].release_date,
-                    "LLLL do, yyyy",
-                ),
-                successUpdate: "This record was updated correctly.",
-                genres: genres,
-                publishers: publishers,
-            });
+            // Fetch the database after the update.
+            // const gameData = await getGameById(gameId);
+            // const gameGenres = await getGameGenres(gameId);
+            // const gameCover = await getGameCover(gameId);
+            // const gamePublisher = await getGamePublisher(gameId);
+            // const genres = await getAllGenres();
+            // const publishers = await getAllPublishers();
+
+            // return res.render("pages/gamePage", {
+            //     title: gameData[0].title,
+            //     gameId: gameId,
+            //     gameData: gameData[0],
+            //     gameGenres: gameGenres,
+            //     gameCover: gameCover[0],
+            //     gamePublisher: gamePublisher[0],
+            //     gameReleaseDate: format(
+            //         gameData[0].release_date,
+            //         "LLLL do, yyyy",
+            //     ),
+            //     successUpdate: "This record was updated correctly.",
+            //     genres: genres,
+            //     publishers: publishers,
+            // });
+            return res.redirect(`/games/${gameId}`);
         } else {
             return res.status(404).render("pages/404", {
                 title: "Game Not Found",

@@ -1,0 +1,21 @@
+.not-found-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3em;
+    font-family: var(--font-main);
+    padding: 1em;
+    text-align: center;
+}
+
+.not-found-page > h1 {
+    font-size: 3rem;
+}
+
+.not-found-page > p {
+    font-weight: 900;
+}
+
+.not-found-page > p > a {
+    color: var(--color-blue);
+}

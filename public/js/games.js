@@ -90,3 +90,10 @@ toggleGenresButton.addEventListener("click", () => {
 togglePublishersButton.addEventListener("click", () => {
     toggleVisibility("publishers");
 });
+
+const allGameCovers = document.querySelectorAll("[data-game-cover]");
+allGameCovers.forEach((cover) => {
+    cover.addEventListener("error", (e) => {
+        e.target.src = "/images/ps2_games.jpg";
+    });
+});

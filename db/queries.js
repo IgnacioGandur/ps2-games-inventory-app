@@ -63,7 +63,7 @@ async function getGameGenres(gameId) {
         SELECT games_genres.id AS gg_id, genres.id, genres.name AS genre FROM genres 
         INNER JOIN games_genres ON genres.id = games_genres.genre_id
         INNER JOIN games ON games_genres.game_id = games.id 
-        WHERE games.id = $1;
+        WHERE games.id = $1 ORDER BY genres.name;
     `,
         [gameId],
     );

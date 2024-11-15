@@ -13,6 +13,7 @@ const genresRouter = require("./routes/genresRouter");
 const publishersRouter = require("./routes/publishersRouter");
 const searchRouter = require("./routes/searchRouter.js");
 const aboutRouter = require("./routes/aboutRouter.js");
+const errorPageRouter = require("./routes/404Router.js");
 
 // Set favicon
 app.use(favicon(path.join(__dirname, "public", "icons", "favicon.ico")));
@@ -36,10 +37,7 @@ app.use("/genres", genresRouter);
 app.use("/publishers", publishersRouter);
 app.use("/search", searchRouter);
 app.use("/about", aboutRouter);
-
-app.use("*", (req, res) => {
-    res.send("invlid url");
-});
+app.use("*", errorPageRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}/`);

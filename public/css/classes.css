@@ -1,0 +1,290 @@
+.modal {
+    display: none;
+}
+
+.modal.visible {
+    width: 100%;
+    height: 100%;
+    background-color: #00000099;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    animation: appearModal 200ms ease-in-out forwards;
+}
+
+.form {
+    background-color: black;
+    width: 50%;
+    height: fit-content;
+    border: 1px solid #ffffff55;
+    padding: 1em;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-main);
+    gap: 1em;
+}
+
+.form.edit {
+    width: 90%;
+    height: 95%;
+    overflow-y: scroll;
+    padding: 2em;
+}
+
+.vertical-separator {
+    width: 1px;
+    background-color: #ffffff22;
+    height: 100%;
+}
+
+.inputs-container {
+    width: 100%;
+    display: flex;
+    gap: 1em;
+}
+
+.inputs-container > .label {
+    flex: 1;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+    text-align: center;
+    font-weight: 900;
+}
+
+.input {
+    padding: 0.75em;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    transition: all 300ms ease-in-out;
+}
+
+.input:user-invalid {
+    border: 1px solid var(--color-red);
+    background-color: var(--color-red-transparent);
+}
+
+.input.yellow:hover {
+    border: 1px solid var(--color-yellow);
+}
+
+.input.yellow:focus,
+.input.yellow:focus-visible {
+    border: 1px solid var(--color-yellow);
+    background-color: var(--color-yellow-transparent);
+}
+
+.input.green:hover {
+    border: 1px solid var(--color-green);
+}
+
+.input.green:focus,
+.input.green:focus-visible {
+    border: 1px solid var(--color-green);
+    background-color: var(--color-green-transparent);
+}
+
+.input.blue:hover {
+    border: 1px solid var(--color-blue);
+}
+
+.input.blue:focus,
+.input.blue:focus-visible {
+    border: 1px solid var(--color-blue);
+    background-color: var(--color-blue-transparent);
+}
+
+.option {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    position: relative;
+    border-radius: 5px;
+}
+
+.option > label {
+    border-radius: 5px;
+    font-family: var(--font-main);
+    text-transform: capitalize;
+    text-align: center;
+    padding: 1em;
+    flex: 1;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 250ms ease-out;
+    border: 1px solid #ffffff22;
+}
+
+.option > label:hover,
+.option > label:focus,
+.option > label:focus-visible {
+    background-color: var(--color-blue-transparent);
+    border: 1px solid var(--color-blue);
+}
+
+.option > label:active {
+    transform: scale(0.95);
+}
+
+.option > input {
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+}
+
+.option > input[type="checkbox"]:checked + label,
+.option > input[type="radio"]:checked + label {
+    background-color: var(--color-green-transparent);
+    border: 1px solid var(--color-green);
+}
+
+.option.red > input[type="checkbox"]:checked + label,
+.option.red > input[type="radio"]:checked + label {
+    background-color: var(--color-red-transparent);
+    border: 1px solid var(--color-red);
+}
+
+.option.blue > input[type="checkbox"]:checked + label,
+.option.blue > input[type="radio"]:checked + label {
+    background-color: var(--color-blue-transparent);
+    border: 1px solid var(--color-blue);
+}
+
+.option:has(input[type="checkbox"]:checked) {
+    animation: select 250ms ease-in-out;
+}
+
+.button {
+    flex: 1;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 0.75em;
+    color: white;
+    cursor: pointer;
+}
+
+.button.cancel {
+    background-image: linear-gradient(
+        90deg,
+        transparent,
+        transparent,
+        transparent,
+        var(--color-red-transparent),
+        var(--color-red-transparent),
+        var(--color-red-transparent)
+    );
+    background-repeat: no-repeat;
+    background-size: 220%;
+    background-position: left center;
+    transition: all 300ms ease-in-out;
+}
+
+.button.cancel:hover,
+.button.cancel:focus,
+.button.cancel:focus-visible {
+    background-position: right center;
+    border: 1px solid var(--color-red);
+}
+
+.button.confirm {
+    background-image: linear-gradient(
+        90deg,
+        var(--color-green-transparent),
+        var(--color-green-transparent),
+        var(--color-green-transparent),
+        transparent,
+        transparent,
+        transparent
+    );
+    background-size: 220%;
+    background-repeat: no-repeat;
+    background-position: right center;
+    transition: all 300ms ease-in-out;
+}
+
+.button.confirm:hover,
+.button.confirm:focus,
+.button.confirm:focus-visible {
+    border: 1px solid var(--color-green);
+    background-position: left center;
+}
+
+.form-field-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.form-field-container > p {
+    font-weight: 900;
+}
+
+.buttons-container {
+    width: 100%;
+    display: flex;
+    gap: 1em;
+}
+
+.current-publisher {
+    padding: 1em;
+    border-radius: 5px;
+    border: 1px solid var(--color-blue);
+    background-color: var(--color-blue-transparent);
+    width: fit-content;
+    text-transform: capitalize;
+}
+
+.tag {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    padding: 0.5em;
+    background-color: var(--color-blue-transparent);
+    border: 1px solid var(--color-blue);
+    border-radius: 5px;
+    transition: all 300ms ease-in-out;
+}
+
+.tag:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.tag > .tag-name {
+    text-transform: capitalize;
+}
+
+.tag > .delete-button {
+    background-color: transparent;
+    padding: 0;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 300ms ease-in-out;
+}
+
+.tag > .delete-button > span {
+    font-size: 1rem;
+}

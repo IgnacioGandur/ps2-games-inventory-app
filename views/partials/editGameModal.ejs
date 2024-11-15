@@ -1,29 +1,33 @@
-<div data-edit-game-details-modal class="edit-game-details-modal">
-    <form data-edit-game-details-form class="edit-game-details" action="/games/update/<%= gameId %>" method="POST">
-        <label for="updatedGameTitle">
-            Edit this game's title:
-            <input type="text" name="updatedGameTitle"  id="updatedGameTitle" value="<%= gameData.title %>" required/>
-        </label>
-        <label for="updatedGameCoverUrl">
-            Edit this game's url cover:
-            <input type="url" name="updatedGameCoverUrl" id="updatedGameCoverUrl" value="<%= gameCover.cover %>" required/>
-        </label>
-        <label for="updatedGameDescription">
+<div data-edit-game-details-modal class="modal">
+    <form data-edit-game-details-form class="form edit" action="/games/update/<%= gameId %>" method="POST">
+        <div class="inputs-container">
+            <label class="label" for="updatedGameTitle">
+                Edit this game's title:
+                <input class="input yellow" minlength="3" type="text" name="updatedGameTitle"  id="updatedGameTitle" value="<%= gameData.title %>" required/>
+            </label>
+            <div class="vertical-separator"></div>
+            <label class="label" for="updatedGameCoverUrl">
+                Edit this game's url cover:
+                <input class="input yellow" type="url" name="updatedGameCoverUrl" id="updatedGameCoverUrl" value="<%= gameCover.cover %>" required/>
+            </label>
+            <div class="vertical-separator"></div>
+            <label class="label" for="updatedGameReleaseDate">
+                Edit this game's release date:
+                <input class="input yellow" type="datetime-local" name="updatedGameReleaseDate"  id="updatedGameReleaseDate" required/>
+            </label>
+        </div>
+        <label class="label" for="updatedGameDescription">
             Edit this game's description:
-            <input type="text" name="updatedGameDescription"  id="updatedGameDescription" value="<%= gameData.description %>" required/>
-        </label>
-        <label for="updatedGameReleaseDate">
-            Edit this game's release date:
-            <input type="datetime-local" name="updatedGameReleaseDate"  id="updatedGameReleaseDate" required/>
+            <input class="input yellow" minlength="5" type="text" name="updatedGameDescription"  id="updatedGameDescription" value="<%= gameData.description %>" required/>
         </label>
         <% if(locals.gameGenres) { %>
-            <div >
+            <div class="form-field-container">
                 <p>
                     Current genres for this title (select to delete them)
                 </p>
                 <div style="width: 100%; display:flex; flex-wrap:wrap; gap: 1em;">
                     <% gameGenres.forEach((genre) => { %>
-                        <div class='option'>
+                        <div class='option red'>
                             <input data-genre-box type="checkbox" name='targetGamesGenres[]' id='current-<%= genre.genre %>' value='{"gg_id": "<%= genre.gg_id %>", "id": "<%= genre.id %>"}'/>
                             <label for="current-<%= genre.genre %>">
                                 <%= genre.genre %>
@@ -34,7 +38,7 @@
             </div>
         <% } %>
         <% if(locals.genres) { %>
-            <div>
+            <div class="form-field-container">
                 <p>
                     Add new genres to this game (select to add)
                 </p>
@@ -50,39 +54,34 @@
                 </div>
             </div>
         <% } %>
-        <p>
-            The current publisher for this game is
-            <% if (locals.gamePublisher) { %>
-                <p>
-                    <%= gamePublisher.publisher %>
-                </p>
-            <% } %>
-        </p>
         <% if(locals.publishers) { %>
-            <p>
-                Change the publisher for this game
-            </p>
-            <div class='options-container' style="width: 100%; display:flex; flex-wrap:wrap; gap: 1em; ">
-                <% publishers.forEach((publisher,index) => { %>
-                    <div class='option'>
-                        <input type='radio' name='updatedPublisherId' id='<%= publisher.name %>' value="<%= publisher.id %>"  <%= publisher.name === gamePublisher.publisher ? "checked" : '' %>/>
-                        <label for="<%= publisher.name %>">
-                            <%= publisher.name %>
-                        </label>
-                    </div>
-                <% }) %>
+            <div class="form-field-container">
+                <p>
+                    Change the publisher for this game
+                </p>
+                <div class='options-container' style="width: 100%; display:flex; flex-wrap:wrap; gap: 1em; ">
+                    <% publishers.forEach((publisher,index) => { %>
+                        <div class='option blue'>
+                            <input type='radio' name='updatedPublisherId' id='<%= publisher.name %>' value="<%= publisher.id %>"  <%= publisher.name === gamePublisher.publisher ? "checked" : '' %>/>
+                            <label for="<%= publisher.name %>">
+                                <%= publisher.name %>
+                            </label>
+                        </div>
+                    <% }) %>
+                </div>
             </div>
         <% } %>
-        <label for="adminPass">
+        <label class="label" for="adminPass">
             Enter the admin password to confirm the edit:
-            <input type="password" name="adminPass"  id="adminPass" required/>
+            <input class="input yellow" type="password" name="adminPass"  id="adminPass" required/>
         </label>
-        <button data-hide-edit-modal type='button'>
-            Cancel edit 
-        </button>
-        <button type="submit">
-            Edit game info
-        </button>
-
+        <div class="buttons-container">
+            <button class="button cancel" data-hide-edit-modal type='button'>
+                Cancel edit 
+            </button>
+            <button class="button confirm" type="submit">
+                Edit game info
+            </button>
+        </div>
     </form>
 </div>

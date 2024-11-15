@@ -6,9 +6,16 @@
             name="viewport"
             content="width=device-width, initial-scale=1.0"
         />
-        <title><%= title %></title>
+        <title>
+            Games List | PS2 Games Vault
+        </title>
         <link rel="stylesheet" href="/css/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="/css/navbar.css">
+        <link rel="stylesheet" href="/css/footer.css">
+        <link rel="stylesheet" href="/css/variables.css">
+        <link rel="stylesheet" href="/css/games.css">
+        <link rel="stylesheet" href="/css/classes.css">
         <script defer src='/js/games.js'></script>
     </head>
     <body>
@@ -40,7 +47,7 @@
                         </span>
                     </button>
                     <% if (locals.genres ) { %>
-                        <form data-genres-form class='filter-genres options-container' action='/games/' method='GET'>
+                        <form data-genres-form class='options-container' action='/games/' method='GET'>
                             <% genres.forEach((genre) => { %>
                                 <div class='option'>
                                     <input data-genre-box type="checkbox" name='genreFilters[]' id='<%= genre.name %>' value='<%= genre.id %>'>
@@ -97,8 +104,8 @@
                     <% } else { %>
                         <div class='games-container'>
                             <% games.forEach((game) => { %>
-                                <div class="game" >
-                                    <img src="<%= game.cover %>" alt="<%= game.title %>" onerror="this.onerror=null; this.src='/images/ps2_games.jpg'">
+                                <div class="game" title="Click to see this game's details." >
+                                    <img data-game-cover src="<%= game.cover %>" alt="<%= game.title %>" >
                                     <div class="gradient-overlay"></div>
                                     <a href="/games/<%= game.id %>">
                                         <h3>

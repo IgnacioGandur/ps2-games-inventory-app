@@ -7,45 +7,50 @@
             content="width=device-width, initial-scale=1.0"
         />
         <title>
-            <%= title %>
+            Publishers List | PS2 Games Vault
         </title>
         <link rel="stylesheet" href="/css/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="/css/navbar.css">
+        <link rel="stylesheet" href="/css/footer.css">
+        <link rel="stylesheet" href="/css/variables.css">
+        <link rel="stylesheet" href="/css/genres_publishers.css">
+        <link rel="stylesheet" href="/css/classes.css">
         <script defer src="/js/publishers.js"></script>
     </head>
     <body>
         <%- include('../partials/navbar.ejs') %>
-        <div data-delete-publisher-modal class='delete-publisher-modal'>
-            <form data-delete-publisher-form class='delete-form' action="#" method='POST'>
-                <label for="deletePublisherPass">
+        <div data-delete-publisher-modal class='modal'>
+            <form data-delete-publisher-form class='form' action="#" method='POST'>
+                <label class="label" for="deletePublisherPass">
                     Enter the admin password to delete this publisher
-                    <input data-delete-publisher-pass type="password" name="deletePublisherPass" id="deletePublisherPass" required>
+                    <input class="input yellow" data-delete-publisher-pass type="password" name="deletePublisherPass" id="deletePublisherPass" required>
                 </label>
                 <div class='buttons-container'>
-                    <button data-delete-publisher-button-cancel >
+                    <button class="button cancel" data-delete-publisher-button-cancel >
                         Cancel
                     </button>
-                    <button data-delete-publisher-button type='submit' >
+                    <button class="button confirm" data-delete-publisher-button type='submit' >
                         Confirm
                     </button>
                 </div>
             </form>
         </div>
-        <div data-edit-publisher-modal class='edit-publisher-modal'>
-            <form data-edit-publisher-form class='edit-form' action="#" method='POST'>
-                <label for="newPublisherValue">
+        <div data-edit-publisher-modal class='modal'>
+            <form data-edit-publisher-form class='form' action="#" method='POST'>
+                <label class="label" for="newPublisherValue">
                     New publisher value:
-                    <input data-new-publisher-value type="text" name="newPublisherValue" id="newPublisherValue" >
+                    <input class="input yellow" data-new-publisher-value type="text" name="newPublisherValue" id="newPublisherValue" >
                 </label>
-                <label for="editPublisherPass">
+                <label class="label" for="editPublisherPass">
                     Enter the admin password to edit this publisher
-                    <input data-edit-publisher-pass type="password" name="editPublisherPass" id="editPublisherPass">
+                    <input class="input yellow" data-edit-publisher-pass type="password" name="editPublisherPass" id="editPublisherPass">
                 </label>
                 <div class='buttons-container'>
-                    <button data-edit-publisher-button-cancel type='button' >
+                    <button class="button cancel" data-edit-publisher-button-cancel type='button' >
                         Cancel
                     </button>
-                    <button data-edit-publisher-button type='submit' >
+                    <button class="button confirm" data-edit-publisher-button type='submit' >
                         Confirm
                     </button>
                 </div>
@@ -58,11 +63,11 @@
             <% if(locals.publishers) { %>
             <ul class='publishers-container'>
                 <% publishers.forEach((publisher) => { %>
-                    <li data-publisher-tag  class='publisher' onclick="setEditTargetPublisher(<%= publisher.id %>); setTargetPublisherName('<%= publisher.name %>');">
-                        <p>
+                    <li class="tag" data-publisher-tag title="Click to edit this publisher"  class='publisher' onclick="setEditTargetPublisher(<%= publisher.id %>); setTargetPublisherName('<%= publisher.name %>');">
+                        <p class="tag-name">
                             <%= publisher.name %>
                         </p>
-                        <button data-delete-publisher-button onclick='setTargetPublisher(<%= publisher.id %>);' title='Delete this tag' class='delete-button' type='submit'>
+                        <button class="delete-button" data-delete-publisher-button onclick='setTargetPublisher(<%= publisher.id %>);' title='Delete this tag' class='delete-button' type='submit'>
                             <span class='material-symbols-rounded'>
                                 close
                             </span>
@@ -83,11 +88,11 @@
                 </ul>
             <% } %>
             <form class='add-publisher-form' action="/publishers/addPublisher" method='POST'>
-                <label for="publisherName">
+                <label class="label" for="publisherName">
                     <p>Add a new publisher</p>
-                    <input type="text" name='publisherName' id="publisherName" placeholder="Activision" minlength="3" value="<%= locals.userInput ?  locals.userInput : '' %>" required>
+                    <input class="input yellow" type="text" name='publisherName' id="publisherName" placeholder="Activision" minlength="3" value="<%= locals.userInput ?  locals.userInput : '' %>" required>
                 </label>
-                <button class='add-publisher-button' type='submit'>Add publisher</button>
+                <button class='button confirm' type='submit'>Add publisher</button>
             </form>
         </main>
         <%- include('../partials/footer.ejs') %>

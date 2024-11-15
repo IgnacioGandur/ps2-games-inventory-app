@@ -1,0 +1,13 @@
+:root {
+    --font-main: "Roboto", sans-serif;
+    --font-decorative: "Rock Salt", cursive;
+    --color-dark-background: #001b29;
+    --color-blue: #2d6cb3;
+    --color-yellow: #f2c200;
+    --color-red: #de0023;
+    --color-green: #00ab9e;
+    --color-blue-transparent: #2d6cb355;
+    --color-yellow-transparent: #f2c20055;
+    --color-red-transparent: #de002355;
+    --color-green-transparent: #00ab9e55;
+}

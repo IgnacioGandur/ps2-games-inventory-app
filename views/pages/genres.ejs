@@ -7,45 +7,50 @@
             content="width=device-width, initial-scale=1.0"
         />
         <title>
-            <%= title %>
+            Genres List | PS2 Games Vault
         </title>
         <link rel="stylesheet" href="/css/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="/css/navbar.css">
+        <link rel="stylesheet" href="/css/footer.css">
+        <link rel="stylesheet" href="/css/variables.css">
+        <link rel="stylesheet" href="/css/genres_publishers.css">
+        <link rel="stylesheet" href="/css/classes.css">
         <script defer src='/js/genres.js'></script>
     </head>
     <body>
         <%- include('../partials/navbar.ejs') %>
-        <div data-delete-genre-modal class='delete-genre-modal'>
-            <form data-delete-genre-form class='delete-form' action="#" method='POST'>
-                <label for="deleteGenrePass">
+        <div data-delete-genre-modal class='modal'>
+            <form data-delete-genre-form class='form' action="#" method='POST'>
+                <label class="label" for="deleteGenrePass">
                     Enter the admin password to delete this genre
-                    <input data-delete-genre-pass type="password" name="deleteGenrePass" id="deleteGenrePass" required>
+                    <input class="input yellow" data-delete-genre-pass type="password" name="deleteGenrePass" id="deleteGenrePass" required>
                 </label>
                 <div class='buttons-container'>
-                    <button data-delete-genre-button-cancel >
+                    <button class="button cancel" data-delete-genre-button-cancel >
                         Cancel
                     </button>
-                    <button data-delete-genre-button type='submit' >
+                    <button class="button confirm" data-delete-genre-button type='submit' >
                         Confirm
                     </button>
                 </div>
             </form>
         </div>
-        <div data-edit-genre-modal class='edit-genre-modal'>
-            <form data-edit-genre-form class='edit-form' action="#" method='POST'>
-                <label for="newGenreValue">
+        <div data-edit-genre-modal class='modal'>
+            <form data-edit-genre-form class='form' action="#" method='POST'>
+                <label class="label" for="newGenreValue">
                     New Genre value:
-                    <input data-new-genre-value type="text" name="newGenreValue" id="newGenreValue" required >
+                    <input class="input yellow" data-new-genre-value type="text" name="newGenreValue" id="newGenreValue" required >
                 </label>
-                <label for="editGenrePass">
+                <label class="label" for="editGenrePass">
                     Enter the admin password to edit this genre
-                    <input data-edit-genre-pass type="password" name="editGenrePass" id="editGenrePass" required>
+                    <input class="input yellow" data-edit-genre-pass type="password" name="editGenrePass" id="editGenrePass" required>
                 </label>
                 <div class='buttons-container'>
-                    <button data-edit-genre-button-cancel type='button' >
+                    <button class="button cancel" data-edit-genre-button-cancel type='button' >
                         Cancel
                     </button>
-                    <button data-edit-genre-button type='submit' >
+                    <button class="button confirm" data-edit-genre-button type='submit' >
                         Confirm
                     </button>
                 </div>
@@ -58,11 +63,11 @@
             <% if (locals.genres ) { %>
                 <ul class='genres-container'>
                     <% genres.forEach((genre) => { %>
-                        <li onclick="setEditTargetGenre(<%= genre.id %>); setTargetGenreName('<%= genre.name %>');" data-genre-tag class='genre'>
-                            <p>
+                        <li class="tag" title="Click on this genre to edit it" onclick="setEditTargetGenre(<%= genre.id %>); setTargetGenreName('<%= genre.name %>');" data-genre-tag class='genre'>
+                            <p class="tag-name">
                                 <%= genre.name %>
                             </p>
-                            <button data-delete-genre-button onclick='setTargetGenre(<%= genre.id %>)' title='Delete this tag' class='delete-button' type="submit">
+                            <button class="delete-button" data-delete-genre-button onclick='setTargetGenre(<%= genre.id %>)' title='Delete this tag' class='delete-button' type="submit">
                                 <span class='material-symbols-rounded'>
                                     close
                                 </span>
@@ -85,9 +90,9 @@
             <form class='add-genre-form' action="/genres/addGenre" method='POST'>
                 <label for="genreName">
                     Add a new genre
-                    <input type="text" name="genreName" id='genreName' minlength='3' placeholder='Action' value="<%= locals.userInput ? locals.userInput : '' %>" required>
+                    <input class="input green" type="text" name="genreName" id='genreName' minlength='3' placeholder='Action' value="<%= locals.userInput ? locals.userInput : '' %>" required>
                 </label>
-                <button class='add-genre-button' type='submit'>Add</button>
+                <button class='button confirm' type='submit'>Add</button>
             </form>
         </main>
         <%- include('../partials/footer.ejs') %>
