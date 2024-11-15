@@ -6,12 +6,10 @@ const path = require("node:path");
 const favicon = require("serve-favicon");
 // Routers
 const indexRouter = require("./routes/indexRouter");
-const categoriesRouter = require("./routes/categoriesRouter");
 const addNewGameRouter = require("./routes/addNewGameRouter");
 const gamesRouter = require("./routes/gamesRouter");
 const genresRouter = require("./routes/genresRouter");
 const publishersRouter = require("./routes/publishersRouter");
-const searchRouter = require("./routes/searchRouter.js");
 const aboutRouter = require("./routes/aboutRouter.js");
 const errorPageRouter = require("./routes/404Router.js");
 
@@ -31,11 +29,9 @@ app.set("views", path.join(__dirname, "views"));
 // Routes
 app.use("/", indexRouter);
 app.use("/games", gamesRouter);
-app.use("/categories", categoriesRouter);
 app.use("/addNewGame", addNewGameRouter);
 app.use("/genres", genresRouter);
 app.use("/publishers", publishersRouter);
-app.use("/search", searchRouter);
 app.use("/about", aboutRouter);
 app.use("*", errorPageRouter);
 

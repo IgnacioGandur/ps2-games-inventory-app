@@ -67,7 +67,6 @@ const SQL = `
 
     INSERT INTO genres (name) VALUES 
     ('action'),
-    ('action-adventure'),
     ('adventure'),
     ('beat ''em up'),
     ('board game'),
