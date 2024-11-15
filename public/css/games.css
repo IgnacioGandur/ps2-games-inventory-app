@@ -325,3 +325,28 @@
     transform: translate(-50%, -50%);
     transition: all 200ms ease-in-out;
 }
+
+@media screen and (max-width: 500px) {
+    .games > .sort-sidebar > .filter > .options-container {
+        grid-template-columns: 1fr 1fr !important ;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .games {
+        padding: 0;
+        flex-direction: column;
+    }
+
+    .games > .sort-sidebar {
+        flex: initial;
+    }
+
+    .games > .sort-sidebar > .filter > .options-container {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .games > .games-grid {
+        padding: 1em;
+    }
+}

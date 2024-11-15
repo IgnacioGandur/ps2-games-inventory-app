@@ -11,3 +11,11 @@
 .footer > span {
     font-family: var(--font-main);
 }
+
+@media screen and (max-width: 500px) {
+    .footer {
+        display: none;
+    }
+}
+@media screen and (max-width: 1000px) {
+}

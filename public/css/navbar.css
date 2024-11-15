@@ -78,3 +78,15 @@
     border-bottom: 3px solid white;
     transform: translateY(0%) scale(1);
 }
+
+@media screen and (max-width: 500px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+}
+@media screen and (max-width: 1000px) {
+    .navbar > .logo {
+        display: none;
+    }
+}

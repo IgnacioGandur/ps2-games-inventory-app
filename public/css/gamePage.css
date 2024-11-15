@@ -42,6 +42,7 @@
 }
 
 .game-page > .game-details > .game-cover {
+    object-fit: cover;
     width: 50%;
     border-radius: 5px;
     overflow: hidden;
@@ -103,6 +104,7 @@
 
 .game-page > .game-details > .game-text > .container > .genres {
     display: flex;
+    flex-wrap: wrap;
     list-style-type: none;
     gap: 1em;
 }
@@ -110,6 +112,10 @@
 .game-page > .game-details > .game-text > .container > .genres > li {
     border: 1px solid var(--color-green);
     background-color: var(--color-green-transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .game-page > .game-details > .game-text > .buttons-container {
@@ -164,4 +170,22 @@
 
 .game-page > .game-details > .game-text > .delete-button:active {
     transform: scale(0.95, 1);
+}
+
+@media screen and (max-width: 500px) {
+    .game-page > .game-details {
+        flex-direction: column;
+    }
+
+    .game-page > .game-details > .game-cover,
+    .game-page > .game-details > .game-text {
+        width: 100%;
+    }
+
+    .game-page > .game-details > .game-text > h1 {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 1000px) {
 }

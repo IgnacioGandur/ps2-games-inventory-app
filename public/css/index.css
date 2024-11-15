@@ -14,7 +14,7 @@
 }
 
 .sidebar > .decoration-line > .vertical-line {
-    height: 93%;
+    height: 450px;
     width: 2px;
     background-color: white;
 }
@@ -160,4 +160,46 @@
     padding: 1em;
     width: 100%;
     height: 100%;
+}
+
+@media screen and (max-width: 500px) {
+    main {
+        flex: 1;
+    }
+    .index-page {
+        padding: 0;
+    }
+    .decoration-line {
+        display: none;
+    }
+
+    .sidebar {
+        width: initial;
+        justify-content: center;
+        flex-direction: column;
+        gap: 2em;
+    }
+
+    .sidebar > .links {
+        padding-top: 0;
+    }
+    .sidebar > .links > * {
+        padding: 1em;
+        justify-content: center;
+    }
+
+    .index-page > .sidebar > .links > .logo {
+        justify-content: center;
+        margin-bottom: 3em;
+    }
+
+    .sidebar > .links > a > .indicator {
+        display: none;
+    }
+    .index-page > .sidebar > .options-container {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1000px) {
 }

@@ -25,7 +25,7 @@
                 <p>
                     Current genres for this title (select to delete them)
                 </p>
-                <div style="width: 100%; display:flex; flex-wrap:wrap; gap: 1em;">
+                <div class="options-container" >
                     <% gameGenres.forEach((genre) => { %>
                         <div class='option red'>
                             <input data-genre-box type="checkbox" name='targetGamesGenres[]' id='current-<%= genre.genre %>' value='{"gg_id": "<%= genre.gg_id %>", "id": "<%= genre.id %>"}'/>
@@ -42,7 +42,7 @@
                 <p>
                     Add new genres to this game (select to add)
                 </p>
-                <div style="width: 100%; display:flex; flex-wrap:wrap; gap: 1em;">
+                <div class="options-container" >
                     <% genres.forEach((genre) => { %>
                         <div class='option'>
                             <input data-genre-box type="checkbox" name='updatedGameGenres[]' id='updated-<%= genre.name %>' value='<%= genre.id %>'>
@@ -59,7 +59,7 @@
                 <p>
                     Change the publisher for this game
                 </p>
-                <div class='options-container' style="width: 100%; display:flex; flex-wrap:wrap; gap: 1em; ">
+                <div class='options-container' >
                     <% publishers.forEach((publisher,index) => { %>
                         <div class='option blue'>
                             <input type='radio' name='updatedPublisherId' id='<%= publisher.name %>' value="<%= publisher.id %>"  <%= publisher.name === gamePublisher.publisher ? "checked" : '' %>/>

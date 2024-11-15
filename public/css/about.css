@@ -156,3 +156,15 @@
     animation: animateBackground 2s ease-in-out infinite;
     background-position: right top;
 }
+
+@media screen and (max-width: 500px) {
+    .about-page > h1 {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .about-page > h1 {
+        text-align: center;
+    }
+}

@@ -35,7 +35,7 @@ function aboutGet(req, res) {
             icon: "/images/aboutPageIcons/dotenv-icon.svg",
             name: "Dotenv",
             link: "https://github.com/motdotla/dotenv",
-            description: "To use environment variables in our app.",
+            description: "To use environment variables in the project.",
         },
         {
             icon: "/images/aboutPageIcons/express-icon.svg",

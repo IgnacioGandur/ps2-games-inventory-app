@@ -243,6 +243,13 @@
     gap: 1em;
 }
 
+.options-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
 .current-publisher {
     padding: 1em;
     border-radius: 5px;
@@ -287,4 +294,40 @@
 
 .tag > .delete-button > span {
     font-size: 1rem;
+}
+
+@media screen and (max-width: 500px) {
+    .tag {
+        justify-content: space-between;
+    }
+
+    .form {
+        width: 90%;
+        height: 95%;
+    }
+
+    .form.edit > .inputs-container {
+        flex-direction: column;
+    }
+
+    .form.edit > .form-field-container > p {
+        text-align: center;
+    }
+
+    .form.edit > .form-field-container > div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .options-container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr !important;
+        grid-auto-rows: 1fr;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .form.edit > .inputs-container {
+        flex-direction: column;
+    }
 }
