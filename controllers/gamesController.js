@@ -426,8 +426,6 @@ const validateGameUpdate = [
         }),
 ];
 
-// TODO: update the validation chain in the add new game   controller.
-
 const updateGamePost = [
     validateGameUpdate,
     async (req, res) => {
@@ -452,25 +450,6 @@ const updateGamePost = [
         const genres = await getAllGenres();
         const publishers = await getAllPublishers();
 
-        // if (adminPass !== process.env.DELETION_PASSWORD) {
-        //     return res.status(401).render("pages/gamePage", {
-        //         title: gameData[0].title,
-        //         gameId: gameId,
-        //         gameData: gameData[0],
-        //         gameGenres: gameGenres,
-        //         gameCover: gameCover[0],
-        //         gamePublisher: gamePublisher[0],
-        //         gameReleaseDate: format(
-        //             gameData[0].release_date,
-        //             "LLLL do, yyyy",
-        //         ),
-        //         passwordError: `The password given: "${adminPass}" is not correct. No updates were applied to this game.`,
-        //         genres: genres,
-        //         publishers: publishers,
-        //     });
-        // }
-
-        // if (adminPass === process.env.DELETION_PASSWORD) {
         const validationErrors = validationResult(req);
 
         if (!validationErrors.isEmpty()) {
@@ -516,31 +495,6 @@ const updateGamePost = [
             await updateGameCover(gameId, updatedGameCoverUrl);
             await insertIntoGames_genres(gameId, updatedGameGenres);
 
-            // TODO: Decide later if to keep the successful update message or just re-direct the user after the editing...
-
-            // Fetch the database after the update.
-            // const gameData = await getGameById(gameId);
-            // const gameGenres = await getGameGenres(gameId);
-            // const gameCover = await getGameCover(gameId);
-            // const gamePublisher = await getGamePublisher(gameId);
-            // const genres = await getAllGenres();
-            // const publishers = await getAllPublishers();
-
-            // return res.render("pages/gamePage", {
-            //     title: gameData[0].title,
-            //     gameId: gameId,
-            //     gameData: gameData[0],
-            //     gameGenres: gameGenres,
-            //     gameCover: gameCover[0],
-            //     gamePublisher: gamePublisher[0],
-            //     gameReleaseDate: format(
-            //         gameData[0].release_date,
-            //         "LLLL do, yyyy",
-            //     ),
-            //     successUpdate: "This record was updated correctly.",
-            //     genres: genres,
-            //     publishers: publishers,
-            // });
             return res.redirect(`/games/${gameId}`);
         } else {
             return res.status(404).render("pages/404", {
