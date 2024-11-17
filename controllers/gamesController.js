@@ -145,6 +145,7 @@ const validateSearch = [
         .exists()
         .withMessage("The search term is required.")
         .isLength({ min: 1 })
+        .toLowerCase()
         .withMessage("The search term requires at least 1 character."),
 ];
 
@@ -502,7 +503,6 @@ const updateGamePost = [
                 error: "The game you are looking for doesn't exists.",
             });
         }
-        // }
     },
 ];
 
